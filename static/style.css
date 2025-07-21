@@ -1,0 +1,416 @@
+/* -----------------------------------
+    BASE : Corps et typographie
+----------------------------------- */
+
+body, html {
+  height: 100%;
+  margin: 0;
+  font-family: sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* Gardez votre dégradé coloré ici sur le body */
+  background: linear-gradient(-45deg, #f8f1ff, #dff6ff, #ffe3e3, #fffbe0);
+  background-size: 400% 400%; /* Important pour l'animation backgroundMove */
+  animation: backgroundMove 12s ease infinite; /* Animation de votre dégradé */
+
+  position: relative; /* Nécessaire pour le z-index et l'overflow */
+  overflow: hidden; /* Cache le débordement des images défilantes */
+}
+
+/* Votre animation existante pour le fond coloré */
+@keyframes backgroundMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+
+.scrolling-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('image_nv_3/Image1.png'), url('image_nv_3/Image2.png'), url('image_nv_3/Image3.png');
+  background-size: 200px 200px, 200px 200px, 200px 200px;
+  background-repeat: repeat-x;
+  /* background-position: 0 0;  <-- CETTE LIGNE PEUT ÊTRE RETIRÉE MAINTENANT QUE L'ANIMATION VA LA GÉRER */
+  animation: scrollBackground 30s linear infinite; 
+  z-index: -1;
+  background-color: rgba(0, 255, 0, 0.2); /* Garder pour l'instant ou ajuster */
+}
+
+/* Votre animation `@keyframes` */
+@keyframes scrollBackground {
+  0% {
+    background-position: 0% 0%; /* La position de départ, les images sont visibles */
+  }
+  100% {
+    /* Ajustez cette valeur : (nombre d'images * largeur de chaque image) pour un défilement parfait */
+    /* Ex: si 3 images de 200px de large, -600px */
+    background-position: -600px 0%;
+  }
+}
+
+h1 {
+  font-size: 2.4em;
+  margin-bottom: 20px;
+  color: #2c3e50;
+}
+
+h2 {
+  font-size: 1.8em;  /* Moins grand que h1 */
+  margin-bottom: 15px;
+  color: #2c3e50;
+}
+#message {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-top: 15px;
+}
+
+/* -----------------------------------
+    CONTAINER PRINCIPAL
+----------------------------------- */
+.container {
+  background-color: white; /* Le fond blanc de votre quiz */
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 0 30px rgba(0,0,0,0.1);
+  text-align: center;
+  width: 90%;
+  max-width: 700px;
+  position: relative; /* S'assure qu'il reste au-dessus des fonds */
+  z-index: 1; /* Place au-dessus du fond défilant et du fond du body */
+}
+
+/* Le reste de votre CSS... */
+/* -----------------------------------
+    BOUTONS
+----------------------------------- */
+button {
+  font-size: 20px;
+  padding: 15px 30px;
+  margin: 15px;
+  border-radius: 12px;
+  cursor: pointer;
+  border: none;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.buttons button {
+  width: 220px;
+  text-align: center;
+}
+
+
+button:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
+
+#btn-vert {
+  background-color: green;
+  color: white;
+}
+
+#btn-rouge {
+  background-color: red;
+  color: white;
+}
+
+button {
+  transition: transform 0.2s ease;
+}
+
+/* -----------------------------------
+    SCORE FINAL
+----------------------------------- */
+#score {
+  font-size: 1.3em;
+  font-weight: bold;
+  color: #1c2a38;
+  background-color: #ecf0f1;
+  padding: 20px;
+  border-radius: 10px;
+  display: inline-block;
+  margin-top: 20px;
+}
+
+/* -----------------------------------
+    IMAGES ET DISPOSITIONS
+----------------------------------- */
+/* Niveau 2 uniquement (grande image principale) */
+#question-image {
+  width: 250px;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+/* Niveau 1 : images draggable/static */
+.static-image,
+.draggable-image {
+  width: 165px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  cursor: grab;
+}
+
+
+
+.images {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.static-image {
+  margin-right: 40px;
+}
+
+.draggable-image {
+  cursor: grab;
+}
+
+/* -----------------------------------
+    ZONES DE DePÔT
+----------------------------------- */
+.zones {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 20px;
+}
+
+.zones-centrees {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.drop-zone {
+  border: 3px dashed red;
+  padding: 20px;
+  width: 100px;
+  height: 70px;
+  border-radius: 8px;
+  background-color: #ffb3b3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1em;
+  font-weight: bold;
+  color: white;
+  transition: background-color 0.3s ease;
+  user-select: none;
+}
+
+
+/* Specifique aux deux cartons si utilises */
+#carton-vert,
+#carton-rouge {
+  width: 200px;
+  height: 200px;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+#carton-vert {
+  background-color: green;
+}
+
+#carton-rouge,
+#zone-rouge {
+  background-color: rgb(255, 0, 0);
+  color: white;
+}
+
+/* -----------------------------------
+    ZONES BOUTONS DE CHOIX
+----------------------------------- */
+.buttons {
+  margin-bottom: 20px;
+}
+
+/* -----------------------------------
+    ZONE PROGRESSION
+----------------------------------- */
+
+#progression {
+  font-size: 1.1em;
+  color: #0c818e62;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+#progression-barre {
+  width: 100%;
+  height: 15px;
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+#progression-remplie {
+  height: 100%;
+  width: 0%;
+  background: #0418c66f;
+  transition: width 0.6s ease-in-out;
+}
+
+#progression-texte {
+  font-size: 1.2em;
+  margin-bottom: 15px;
+  color: #6d6875;
+}
+
+
+/* -----------------------------------
+    ZONE ESTHETIQUE
+----------------------------------- */
+
+@keyframes brillance {
+  0%, 100% { box-shadow: 0 0 0px transparent; }
+  50% { box-shadow: 0 0 20px #b5ead7; }
+}
+
+@keyframes vibration {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+
+.bonne-reponse {
+  animation: brillance 0.5s ease;
+}
+
+.mauvaise-reponse {
+  animation: vibration 0.5s ease;
+}
+
+@keyframes glisseImage {
+  0% { transform: translateY(20px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+.entree {
+  animation: glisseImage 0.5s ease-out;
+}
+
+
+
+
+/* -----------------------------------
+    NIVEAU 3 : CRITERES
+----------------------------------- */
+
+.grain-image {
+  width: 220px;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.1);
+  display: block;
+  margin: 0 auto 20px;
+}
+
+
+/* Styles spécifiques pour le bouton Crédits */
+#btn-credits {
+    background-color: #6c757d; /* Couleur grise, par exemple */
+    color: white;
+    font-size: 18px; /* Peut être légèrement plus petit que les boutons de niveau */
+    padding: 10px 20px;
+    margin-top: 20px; /* Espace un peu plus que les autres boutons */
+    position: absolute; /* Positionnement absolu pour le mettre en bas à droite */
+    bottom: 20px; /* Distance du bas */
+    right: 20px; /* Distance de la droite */
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+#btn-credits:hover {
+    transform: scale(1.05);
+    background-color: #5a6268;
+}
+
+/* --------------------------------
+Styles pour la page des crédits
+----------------------------------*/
+#credits-page {
+    background-color: white;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 0 30px rgba(0,0,0,0.1);
+    text-align: center;
+    width: 90%;
+    max-width: 800px; /* Peut être un peu plus large si le contenu est dense */
+    position: relative; /* Pour positionner les éléments internes si besoin */
+    margin: 20px auto; /* Centre la page si le container ne le fait pas */
+}
+
+.credits-content h2 {
+    color: #2c3e50;
+    margin-bottom: 25px;
+    font-size: 2.2em;
+}
+
+.credits-content h3 {
+    color: #34495e;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    font-size: 1.6em;
+}
+
+.credits-content p, .credits-content ul {
+    font-size: 1.1em;
+    line-height: 1.6;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.credits-content ul {
+    list-style-type: none; /* Enlève les puces par défaut */
+    padding: 0;
+    margin: 0 auto 20px; /* Centre la liste */
+    max-width: 600px;
+    text-align: left; /* Alignement du texte à gauche pour les listes */
+}
+
+.credits-content ul li {
+    margin-bottom: 8px;
+}
+
+.credits-content ul ul { /* Pour les sous-listes (ex: source des sons) */
+    margin-left: 20px;
+    font-size: 0.95em;
+    color: #666;
+}
+
+.credits-content .copyright {
+    margin-top: 30px;
+    font-size: 0.9em;
+    color: #888;
+}
+
+/* Style du bouton "Retour au Menu" dans la page de crédits */
+.credits-content button {
+    background-color: #007bff; /* Bleu standard */
+    color: white;
+    margin-top: 30px;
+    padding: 12px 25px;
+    font-size: 18px;
+    border-radius: 10px;
+}
+
+.credits-content button:hover {
+    background-color: #0056b3;
+}

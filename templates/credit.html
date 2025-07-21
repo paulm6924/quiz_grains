@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Crédits</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="credit">
+        <h2>Crédits et Droits d'Auteur</h2>
+        <p>Ce jeu a été conçu et réalisé par :</p>
+        <p><strong>Marie Masson Regnault</strong> et <strong>Paul Millaret</strong></p>
+        <p>Cette application est à but éducatif et non commerciale.</p>
+
+        <h3>Ressources utilisées :</h3>
+        <ul>
+            <li>
+                Vidéo : 
+                <ul>
+                    <li>Réalisée par Alice Millaret.</li>
+                </ul>
+            </li>
+            <li>Sons :
+                <ul>
+                    <li>Son_correct.mp3 provient de la chaîne : musiclibrary 
+                        lien : https://www.youtube.com/watch?v=Iih3fI2TPaE&t=2s</li>
+                    <li>Son_faux.mp3 provient de la chaîne : gaming sound  effect
+                        lien : https://www.youtube.com/watch?v=PmxBzT_5duw</li>
+                </ul>
+            </li>
+            <li>Images :
+                <ul>
+                    <li>Toutes les images des niveaux 1, 2 et 3 proviennent de la banque personnelle de Marie Masson Regnault et dermis.net.</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h3>Remerciements spéciaux :</h3>
+        <p>[Si jamais.]</p>
+
+        <p class="copyright">&copy; 2025 Tous droits réservés.</p>
+
+        <button onclick="retourMenu()">Retour au Menu</button>
+    </div>
+
+    <script>
+        // Définir la fonction retourMenu() directement dans credit.html
+        function retourMenu() {
+            // Cette URL renvoie à la route Flask pour la page d'accueil (index.html)
+            window.location.href = "{{ url_for('index') }}";
+        }
+    </script>
+</body>
+</html>

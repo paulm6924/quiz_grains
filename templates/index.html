@@ -1,0 +1,67 @@
+<html>
+<head>
+    <title>Quiz - Choix du Niveau</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="scrolling-background"></div> 
+    <div class="container">
+        <div id="accueil">
+            <h1>CHASSE AUX GRAINS</h1>
+            <p>Choisissez un niveau :</p>
+            <button onclick="chargerNiveau(1)">Niveau 1</button>
+            <button onclick="chargerNiveau(2)">Niveau 2</button>
+            <button onclick="chargerNiveau(3)">Niveau 3</button>
+        </div>
+
+        <div id="jeu" style="display: none;">
+        </div>
+
+        <div id="credit-page" style="display: none;">
+        </div>
+
+    </div>
+
+    <button id="btn-credit" onclick="affichercredit()">Crédits</button>
+
+    <script>
+        // Obtenez l'URL de base du dossier static de Flask
+        // Cette variable sera correctement rendue par Flask une seule fois.
+        const staticBaseUrl = "{{ url_for('static', filename='') }}";
+
+        function chargerNiveau(numero) {
+            document.getElementById("accueil").style.display = "none";
+            document.getElementById("jeu").style.display = "block";
+            document.getElementById("jeu").innerHTML = '';
+
+            const script = document.createElement("script");
+            // CONCATÉNATION CORRECTE EN JAVASCRIPT
+            script.src = staticBaseUrl + "niveau" + numero + ".js";
+            document.body.appendChild(script);
+
+            // Optionnel mais recommandé pour les scripts injectés dynamiquement qui ont des listeners ou init
+            script.onload = () => {
+                console.log(`Script niveau${numero}.js chargé et exécuté.`);
+                // Si vous avez mis en place les fonctions d'initialisation comme initialiserNiveau1(),
+                // vous pourriez les appeler ici via window[nomDeLaFonctionGlobalePourInitialisation]
+                // Mais le setTimeout(..., 0) dans chaque fichier niveauX.js est aussi une bonne approche.
+            };
+            script.onerror = () => {
+                console.error(`Erreur lors du chargement de niveau${numero}.js`);
+            };
+        }
+
+        function affichercredit() {
+            document.getElementById("accueil").style.display = "none";
+            document.getElementById("jeu").style.display = "none";
+            const creditPage = document.getElementById("credit-page");
+            creditPage.style.display = "block";
+            window.location.href = "{{ url_for('credit') }}";
+        }
+
+        function retourMenu() {
+            window.location.href = "{{ url_for('index') }}";
+        }
+    </script>
+</body>
+</html>
