@@ -133,7 +133,7 @@ function initialiserDragAndDrop() {
             sonMauvais.pause();
             sonMauvais.currentTime = 0;
             sonMauvais.play();
-            erreurCommisePourCettePaire = true; // Marquer qu'une erreur a ete commise pour cette paire
+            erreurCommisePourCettePaire = true;
             setTimeout(() => { message.textContent = ""; }, 1000);
         }
     });
