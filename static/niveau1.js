@@ -1,6 +1,6 @@
 // Sons
 const sonBon = new Audio("static/sons/Son_correct.mp3");
-const sonMauvais = new Audio("static/sons/Son_faux.mp3"); // Chemin corrigé ici : "static" au lieu de "sattic"
+const sonMauvais = new Audio("static/sons/Son_faux.mp3");
 
 // Tableau des questions pour le Niveau 1
 const questionsNiveau1 = [
@@ -24,10 +24,11 @@ const questionsNiveau1 = [
 
 let index = 0;
 let score = 0;
+let canEarnPointForCurrentQuestion = true; // Nouvelle variable pour la logique de correction
 
 const zoneJeu = document.getElementById("jeu");
 
-// Contenu HTML du niveau 1, avec les IDs de boutons mis à jour
+// Contenu HTML du niveau 1, avec les IDs de boutons mis à jour et l'élément 'message' ajouté
 zoneJeu.innerHTML = `
     <h1>Niveau 1 : Savoir Decrire</h1>
 
@@ -41,9 +42,10 @@ zoneJeu.innerHTML = `
     <img id="question-image" src="" alt="Image de grain de beaute" />
 
     <h2 id="question-texte"></h2>
-
-    <div class="buttons">
-        <button id="btn-vert">Oui</button>  <button id="btn-rouge">Non</button> </div>
+    <div id="message" style="margin-bottom: 10px; font-weight: bold;"></div> <div class="buttons">
+        <button id="btn-vert">Oui</button>
+        <button id="btn-rouge">Non</button>
+    </div>
 
     <div id="score">Score : 0</div>
 `;
@@ -51,16 +53,23 @@ zoneJeu.innerHTML = `
 // Références aux éléments HTML, avec les IDs mis à jour pour les boutons
 const imageElem = document.getElementById("question-image");
 const questionTextElem = document.getElementById("question-texte");
-const btnVert = document.getElementById("btn-vert"); // Référence mise à jour
-const btnRouge = document.getElementById("btn-rouge"); // Référence mise à jour
+const btnVert = document.getElementById("btn-vert");
+const btnRouge = document.getElementById("btn-rouge");
 const scoreElem = document.getElementById("score");
+const messageElem = document.getElementById("message"); // Référence à l'élément message
 
 function chargerQuestion() {
+    canEarnPointForCurrentQuestion = true; // Réinitialiser pour la nouvelle question
+    // Réactiver les boutons au début de chaque question
+    btnVert.style.pointerEvents = 'auto';
+    btnRouge.style.pointerEvents = 'auto';
+
     if (index >= questionsNiveau1.length) {
         imageElem.style.display = "none";
         questionTextElem.style.display = "none";
         document.querySelector(".buttons").style.display = "none";
         document.getElementById("progression").style.display = "none";
+        messageElem.style.display = "none"; // Masquer le message de fin de jeu
 
         zoneJeu.innerHTML = `
             <h2>Bravo ! Score final : ${score}/${questionsNiveau1.length}</h2>
@@ -85,29 +94,57 @@ function chargerQuestion() {
 function verifierReponse(reponseUtilisateur) {
     const bonneReponse = questionsNiveau1[index].reponse;
     const effet = reponseUtilisateur === bonneReponse ? "bonne-reponse" : "mauvaise-reponse";
-    const son = reponseUtilisateur === bonneReponse ? sonBon : sonMauvais; // sonMauvais sera joué si la réponse est incorrecte
+    const son = reponseUtilisateur === bonneReponse ? sonBon : sonMauvais;
 
     if (reponseUtilisateur === bonneReponse) {
-        score++;
-        scoreElem.textContent = `Score : ${score}`;
+        // Si la réponse est correcte
+        if (canEarnPointForCurrentQuestion) {
+            score++;
+            scoreElem.textContent = `Score : ${score}`;
+            messageElem.textContent = "Bonne réponse !";
+        } else {
+            messageElem.textContent = "C'est la bonne réponse ! (Pas de point)";
+        }
+
+        imageElem.classList.add(effet);
+        son.currentTime = 0;
+        son.play();
+
+        // Désactiver les boutons une fois la réponse donnée pour cette question
+        btnVert.style.pointerEvents = 'none';
+        btnRouge.style.pointerEvents = 'none';
+
+        setTimeout(() => {
+            imageElem.classList.remove(effet);
+            messageElem.textContent = ""; // Efface le message
+            index++;
+            chargerQuestion();
+            // Les boutons sont réactivés dans chargerQuestion()
+        }, 1500); // Laisse plus de temps pour lire le message
+
+    } else {
+        // Si la réponse est incorrecte
+        canEarnPointForCurrentQuestion = false; // Le joueur ne peut plus gagner de point pour cette question
+        messageElem.textContent = "Mauvais choix. Essayez encore !";
+
+        imageElem.classList.add(effet);
+        son.currentTime = 0;
+        son.play();
+
+        setTimeout(() => {
+            imageElem.classList.remove(effet);
+            messageElem.textContent = ""; // Efface le message après un court délai
+            // L'index n'est PAS incrémenté, le joueur peut re-cliquer sur cette même question
+            // Les boutons restent cliquables
+        }, 1000);
     }
-
-    imageElem.classList.add(effet);
-    son.currentTime = 0; // Remet le son au début
-    son.play(); // Joue le son
-
-    setTimeout(() => {
-        imageElem.classList.remove(effet);
-        index++;
-        chargerQuestion();
-    }, 1000);
 }
 
 // Les écouteurs d'événements sont maintenant attachés aux nouveaux IDs
-btnVert.addEventListener("click", () => verifierReponse("oui")); // Écouteur pour le bouton "Oui" (maintenant btn-vert)
-btnRouge.addEventListener("click", () => verifierReponse("non")); // Écouteur pour le bouton "Non" (maintenant btn-rouge)
+btnVert.addEventListener("click", () => verifierReponse("oui"));
+btnRouge.addEventListener("click", () => verifierReponse("non"));
 
-// Fonction pour revenir au menu, déjà définie dans votre index.html
+// Fonction pour revenir au menu
 function retourMenu() {
     document.getElementById("jeu").style.display = "none";
     document.getElementById("accueil").style.display = "block";
