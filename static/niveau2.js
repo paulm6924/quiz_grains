@@ -135,7 +135,6 @@ function afficherFinDuJeu() {
     zoneJeu.innerHTML = `
         <h2>Bravo ! Score final : ${score}/${paires.length}</h2>
         <button onclick="location.reload()">Rejouer</button>
-        <button onclick="retourMenu()">Retour au menu</button>
     `;
 }
 
