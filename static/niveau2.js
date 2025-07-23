@@ -28,7 +28,7 @@ const zoneJeu = document.getElementById("jeu");
 
 // Mise à jour du HTML injecté (inchangé par rapport à la dernière version)
 zoneJeu.innerHTML = `
-    <h2>Niveau 2 : Clique sur l'image du grain de beauté <span style="color: red;">MÉCHANT</span> !</h2>
+    <h2>Niveau 2 : Clique sur l'image du grain de beauté MÉCHANT !</h2>
 
     <div id="progression">
         <div id="progression-barre">
