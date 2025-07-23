@@ -65,7 +65,6 @@ function chargerQuestion() {
         zoneJeu.innerHTML = `
             <h2>Bravo ! Score final : ${score}/${questionsNiveau1.length}</h2>
             <button onclick="location.reload()">Rejouer</button>
-            <button onclick="retourMenu()">Retour au menu</button>
         `;
         return;
     }
