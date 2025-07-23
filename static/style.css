@@ -150,14 +150,19 @@ button {
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
-/* Niveau 1 : images draggable/static */
-.static-image,
-.draggable-image {
-  width: 165px;
-  object-fit: cover;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-  cursor: grab;
+.clickable-image {
+    width: 165px; /* Gardez la taille que vous voulez */
+    height: 165px; /* Pour s'assurer qu'elles sont carrées si object-fit: cover */
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    cursor: pointer; /* Indique qu'elle est cliquable */
+    transition: transform 0.2s ease, box-shadow 0.2s ease; /* Pour l'effet au survol */
+}
+
+.clickable-image:hover {
+    transform: scale(1.03); /* Légère augmentation à l'approche de la souris */
+    box-shadow: 0 0 15px rgba(0,0,0,0.2); /* Ombre plus prononcée au survol */
 }
 
 
