@@ -2,7 +2,7 @@
 const sonBon = new Audio("static/sons/Son_correct.mp3");
 const sonMauvais = new Audio("static/sons/Son_faux.mp3");
 
-// Tableau des paires
+// Tableau des paires (inchangé)
 const paires = [
     { mechant: "static/image_nv_2/Image1.png", gentil: "static/image_nv_2/Image2.png" },
     { gentil: "static/image_nv_2/Image3.png", mechant: "static/image_nv_2/Image4.png" },
@@ -19,17 +19,16 @@ const paires = [
     { mechant: "static/image_nv_2/Image25.png", gentil: "static/image_nv_2/Image26.png" }
 ];
 
-
 let index = 0;
 let score = 0;
-// Nouvelle variable pour suivre si une erreur a ete commise pour la paire actuelle
-let erreurCommisePourCettePaire = false;
-
+// Nouvelle variable pour suivre si le joueur peut encore gagner un point pour la paire actuelle
+let canEarnPointForCurrentPair = true;
 
 const zoneJeu = document.getElementById("jeu");
 
+// Mise à jour du HTML injecté (inchangé par rapport à la dernière version)
 zoneJeu.innerHTML = `
-    <h2>Niveau 2 : Fais glisser uniquement le mechant dans la zone rouge</h2>
+    <h2>Niveau 2 : Clique sur l'image du grain de beauté <span style="color: red;">MÉCHANT</span> !</h2>
 
     <div id="progression">
         <div id="progression-barre">
@@ -43,10 +42,14 @@ zoneJeu.innerHTML = `
     <div id="score">Score : 0</div>
 `;
 
-
 function chargerPaire() {
-    // Reinitialiser la variable d'erreur à chaque nouvelle paire
-    erreurCommisePourCettePaire = false;
+    // Réinitialiser la possibilité de gagner un point pour la nouvelle paire
+    canEarnPointForCurrentPair = true;
+
+    if (index >= paires.length) {
+        afficherFinDuJeu();
+        return;
+    }
 
     const paire = paires[index];
     const contenu = document.getElementById("zone-contenu");
@@ -54,88 +57,77 @@ function chargerPaire() {
     const ordre = Math.random() < 0.5 ? ['gentil', 'mechant'] : ['mechant', 'gentil'];
 
     contenu.innerHTML = `
-        <div class="images">
+        <div class="images clickable-images">
             ${ordre.map(type => {
-                const id = `img-${type}`; // Chaque image aura un ID unique (ex: img-mechant, img-gentil)
-                const classe = 'draggable-image'; // Les deux images sont maintenant glissables
-                const draggable = 'draggable="true"';
-                const data = `data-role="${type}"`; // Conserve le rôle pour verifier la reponse
+                const id = `img-${type}`;
+                const classe = 'clickable-image';
+                const data = `data-role="${type}"`;
                 const src = paire[type];
-                return `<img id="${id}" src="${src}" class="${classe}" ${draggable} ${data}>`;
+                return `<img id="${id}" src="${src}" class="${classe}" ${data}>`;
             }).join('')}
         </div>
-        <div class="zones-centrees">
-            <div id="zone-rouge" class="drop-zone">Mechant</div>
-        </div>
     `;
+
     const progressionPourcentage = ((index + 1) / paires.length) * 100;
     document.getElementById("progression-remplie").style.width = `${progressionPourcentage}%`;
     document.getElementById("progression-texte").textContent = `Image ${index + 1} sur ${paires.length}`;
 
-
-    initialiserDragAndDrop();
+    initialiserClicImages();
 }
 
-function initialiserDragAndDrop() {
-    const images = document.querySelectorAll(".draggable-image"); // Selectionne toutes les images glissables
-    const zoneRouge = document.getElementById("zone-rouge");
+function initialiserClicImages() {
+    const images = document.querySelectorAll(".clickable-image");
     const message = document.getElementById("message");
 
+    // S'assurer que les images sont cliquables au début de chaque paire
+    images.forEach(i => i.style.pointerEvents = 'auto');
+
     images.forEach(img => {
-        img.addEventListener("dragstart", e => {
-            e.dataTransfer.setData("text/plain", e.target.id);
-        });
-    });
+        img.addEventListener("click", function handleImageClick(e) {
+            const clickedImage = e.target;
+            const role = clickedImage.dataset.role;
 
-    zoneRouge.addEventListener("dragover", e => {
-        e.preventDefault();
-        zoneRouge.style.backgroundColor = "#ffe0e0";
-    });
-
-    zoneRouge.addEventListener("dragleave", () => {
-        zoneRouge.style.backgroundColor = "";
-    });
-
-    zoneRouge.addEventListener("drop", e => {
-        e.preventDefault();
-        zoneRouge.style.backgroundColor = "";
-
-        const imgId = e.dataTransfer.getData("text/plain");
-        const dragged = document.getElementById(imgId);
-        const role = dragged.dataset.role;
-
-        if (role === "mechant") {
-            // Verifier si une erreur a dejà ete commise pour cette paire
-            if (!erreurCommisePourCettePaire) { // Si aucune erreur n'a ete commise
-                message.textContent = "Bonne reponse !";
+            if (role === "mechant") {
+                // Correct : passe à la paire suivante
+                if (canEarnPointForCurrentPair) {
+                    // Seulement si aucune erreur n'a été faite pour cette paire
+                    message.textContent = "Bonne réponse !";
+                    score++;
+                    document.getElementById("score").textContent = `Score : ${score}`;
+                } else {
+                    message.textContent = "C'est la bonne réponse ! (Pas de point)";
+                }
                 sonBon.pause();
                 sonBon.currentTime = 0;
                 sonBon.play();
-                score++; // On ajoute le point
-                document.getElementById("score").textContent = `Score : ${score}`;
-            } else { // Si une erreur a dejà ete commise, on ne donne pas le point
-                message.textContent = "Cette fois c'est la bonne reponse, Bravo!";
-                sonBon.pause(); // On peut jouer le son bon même si le point n'est pas donne
-                sonBon.currentTime = 0;
-                sonBon.play();
-            }
+                clickedImage.classList.add("bonne-reponse"); // Effet visuel pour la bonne réponse
 
-            setTimeout(() => {
-                index++;
-                if (index < paires.length) {
-                    chargerPaire();
-                } else {
-                    afficherFinDuJeu();
-                }
-            }, 1000);
-        } else { // Si 'role' est 'gentil'
-            message.textContent = "Mauvais choix.";
-            sonMauvais.pause();
-            sonMauvais.currentTime = 0;
-            sonMauvais.play();
-            erreurCommisePourCettePaire = true;
-            setTimeout(() => { message.textContent = ""; }, 1000);
-        }
+                // Désactiver les clics sur les images une fois la réponse donnée pour cette paire
+                images.forEach(i => i.style.pointerEvents = 'none');
+
+                setTimeout(() => {
+                    message.textContent = ""; // Efface le message
+                    clickedImage.classList.remove("bonne-reponse"); // Enlève l'effet visuel
+                    index++; // Passe à la question suivante
+                    chargerPaire(); // Charge la paire suivante
+                }, 1500); // Laisse un peu de temps pour lire le message
+
+            } else { // Si 'role' est 'gentil' : mauvaise réponse
+                message.textContent = "Mauvais choix. Ce grain est gentil. Essayez encore !";
+                sonMauvais.pause();
+                sonMauvais.currentTime = 0;
+                sonMauvais.play();
+                clickedImage.classList.add("mauvaise-reponse"); // Effet visuel pour la mauvaise réponse
+                canEarnPointForCurrentPair = false; // Le joueur ne peut plus gagner de point pour cette paire
+
+                setTimeout(() => {
+                    message.textContent = ""; // Efface le message après un court délai
+                    clickedImage.classList.remove("mauvaise-reponse"); // Enlève l'effet visuel
+                    // L'index n'est PAS incrémenté ici, le joueur peut re-cliquer sur cette même paire
+                    // Les images restent cliquables car nous n'avons pas mis pointerEvents = 'none'
+                }, 1000);
+            }
+        });
     });
 }
 
