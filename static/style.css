@@ -40,9 +40,21 @@ body {
     align-items: center;
 }
 #level-1-quiz-container {
-    min-height: 35vh; 
-}
+    min-height: 50vh; /* Ajustez cette valeur (par exemple 50vh, 60vh) pour la hauteur souhaitée */
+    /* Ces styles peuvent être spécifiques au Niveau 1 sans affecter les autres */
 
+    /* AJUSTEMENTS POUR LE TITRE ET L'IMAGE DU NIVEAU 1 */
+    & h1 { /* Cible le h1 à l'intérieur de ce conteneur */
+        font-size: 1.8em; /* Exemple: réduire la taille du titre */
+        margin-bottom: 10px; /* Ajuster la marge si nécessaire */
+    }
+
+    & #question-image { /* Cible l'image avec l'ID 'question-image' à l'intérieur de ce conteneur */
+        max-height: 185px; /* Exemple: réduire la hauteur maximale de l'image */
+        width: auto; /* Laisser la largeur s'ajuster proportionnellement */
+        margin-bottom: 10px; /* Ajuster la marge si nécessaire */
+    }
+}
 /* ==========================================================================
    3. Styles pour le Fond Défilant
    ========================================================================== */
