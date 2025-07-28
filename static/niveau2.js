@@ -52,27 +52,59 @@ function chargerPaire() {
     }
 
     const paire = paires[index];
-    const contenu = document.getElementById("zone-contenu");
+    // IMPORTANT : Utilisez document.getElementById("jeu") pour injecter le contenu
+    // Le conteneur "zone-contenu" n'existe pas dans le HTML de base que nous avons défini.
+    // L'injection se fait dans le div "jeu" qui est visible.
+    const jeuDiv = document.getElementById("jeu");
 
     const ordre = Math.random() < 0.5 ? ['gentil', 'mechant'] : ['mechant', 'gentil'];
 
-    contenu.innerHTML = `
-        <div class="images clickable-images">
-            ${ordre.map(type => {
+
+    jeuDiv.innerHTML = `
+        <h1>Trouvez le grain de beauté 'gentil'</h1> <div class="image-paire-container"> ${ordre.map(type => {
                 const id = `img-${type}`;
-                const classe = 'clickable-image';
+                // Utilisez la classe image-paire que nous avons stylisée
+                const classe = 'image-paire entree';
                 const data = `data-role="${type}"`;
                 const src = paire[type];
                 return `<img id="${id}" src="${src}" class="${classe}" ${data}>`;
             }).join('')}
         </div>
+
+        <p id="question-texte">Cliquez sur l'image du grain de beauté 'gentil'.</p> <div class="buttons">
+            </div>
+
+        <p id="message"></p>
+        
+        <div id="progression">
+            <div id="progression-barre">
+                <div id="progression-remplie" style="width: 0%;"></div>
+                <div id="progression-texte"></div>
+            </div>
+        </div>
+        
+        <p id="score">Score : ${score}</p>
+        <button onclick="retourMenu()">Retour Menu</button>
     `;
 
+    // Met à jour la progression après avoir injecté le HTML
     const progressionPourcentage = ((index + 1) / paires.length) * 100;
     document.getElementById("progression-remplie").style.width = `${progressionPourcentage}%`;
     document.getElementById("progression-texte").textContent = `Image ${index + 1} sur ${paires.length}`;
 
-    initialiserClicImages();
+    // IMPORTANT : Réinitialisez le message et les bordures précédentes si elles existent
+    const messageElement = document.getElementById('message');
+    if (messageElement) {
+        messageElement.textContent = '';
+        // Assurez-vous que l'image précédemment sélectionnée n'a plus de bordure
+        const prevSelected = document.querySelector('.image-paire.bonne-reponse, .image-paire.mauvaise-reponse');
+        if (prevSelected) {
+            prevSelected.classList.remove('bonne-reponse', 'mauvaise-reponse');
+        }
+    }
+
+
+    initialiserClicImages(); // Assurez-vous que cette fonction existe et gère le clic sur les images
 }
 
 function initialiserClicImages() {
