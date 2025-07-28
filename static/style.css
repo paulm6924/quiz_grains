@@ -33,7 +33,7 @@ body {
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
     text-align: center;
     max-width: 90%; /* Largeur maximale pour les petits écrans */
-    width: 700px; /* Largeur fixe pour les grands écrans */
+    width: 500px; /* <--- MODIFICATION ICI : Réduction de la largeur du conteneur */
     position: relative; /* Nécessaire pour le z-index et positionnement absolu des éléments internes */
     z-index: 2; /* S'assure que le contenu est au-dessus du fond défilant */
 }
@@ -80,25 +80,26 @@ body {
     color: #555;
 }
 
+/* Styles par défaut pour TOUS les boutons, y compris ceux de l'accueil */
 button {
-    background-color: #4CAF50; /* Bouton vert */
+    background-color: #4CAF50; /* Couleur par défaut (vert) */
     color: white;
-    padding: 15px 30px;
+    padding: 15px 30px; /* <--- MODIFICATION ICI : Taille un peu plus grande pour tous les boutons */
     border: none;
     border-radius: 8px;
-    font-size: 1.2em;
+    font-size: 1.3em; /* <--- MODIFICATION ICI : Taille de police un peu plus grande */
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
     margin: 10px;
-    font-family: 'Righteous', sans-serif; /* Applique la police Righteous aux boutons */
-    text-transform: uppercase; /* Met le texte en majuscules */
+    font-family: 'Righteous', sans-serif;
+    text-transform: uppercase;
     letter-spacing: 1px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
 button:hover {
     background-color: #45a049;
-    transform: translateY(-2px); /* Léger effet de soulèvement */
+    transform: translateY(-2px);
 }
 
 button:active {
@@ -123,8 +124,8 @@ button:active {
 
 #question-image {
     max-width: 100%;
-    height: auto; /* Maintient le ratio d'aspect */
-    max-height: 400px; /* Limite la hauteur de l'image */
+    height: auto;
+    max-height: 400px;
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     margin-bottom: 25px;
@@ -136,7 +137,7 @@ button:active {
     font-size: 1.8em;
     color: #444;
     margin-bottom: 25px;
-    min-height: 2.5em; /* Empêche le déplacement des éléments si le texte change */
+    min-height: 2.5em;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -144,14 +145,41 @@ button:active {
 
 .buttons {
     margin-top: 20px;
+    /* Styles spécifiques pour les boutons "Oui" et "Non" */
+    display: flex; /* Utilise flexbox pour aligner les boutons côte à côte */
+    justify-content: center; /* Centre les boutons horizontalement */
+    gap: 20px; /* Espace entre les boutons */
 }
 
+/* Bouton "Oui" (vert) - Niveaux du quiz */
+#btn-vert {
+    background-color: #28a745; /* Vert plus vif */
+    padding: 18px 40px; /* <--- MODIFICATION ICI : Encore plus grand pour les boutons du quiz */
+    font-size: 1.5em; /* <--- MODIFICATION ICI : Texte plus grand pour les boutons du quiz */
+}
+
+#btn-vert:hover {
+    background-color: #218838;
+}
+
+/* Bouton "Non" (rouge) - Niveaux du quiz */
+#btn-rouge {
+    background-color: #dc3545; /* Rouge vif */
+    padding: 18px 40px; /* <--- MODIFICATION ICI : Encore plus grand pour les boutons du quiz */
+    font-size: 1.5em; /* <--- MODIFICATION ICI : Texte plus grand pour les boutons du quiz */
+}
+
+#btn-rouge:hover {
+    background-color: #c82333;
+}
+
+
 #btn-credit {
-    position: fixed; /* Position fixe par rapport à la fenêtre */
+    position: fixed;
     bottom: 20px;
     right: 20px;
-    background-color: #3498db; /* Une autre couleur pour les crédits */
-    z-index: 10; /* Assurez-vous qu'il est au-dessus des autres éléments */
+    background-color: #3498db;
+    z-index: 10;
 }
 
 #btn-credit:hover {
@@ -171,8 +199,8 @@ button:active {
     background-color: #e0e0e0;
     border-radius: 5px;
     margin-bottom: 20px;
-    height: 25px; /* Hauteur de la barre */
-    overflow: hidden; /* Empêche la barre remplie de déborder */
+    height: 25px;
+    overflow: hidden;
 }
 
 #progression-barre {
@@ -183,41 +211,40 @@ button:active {
 
 #progression-remplie {
     height: 100%;
-    width: 0%; /* Commence à 0% */
-    background-color: #2ecc71; /* Couleur de remplissage */
+    width: 0%;
+    background-color: #2ecc71;
     border-radius: 5px;
-    transition: width 0.5s ease-in-out; /* Animation de la barre */
+    transition: width 0.5s ease-in-out;
 }
 
 #progression-texte {
     position: absolute;
     width: 100%;
     text-align: center;
-    line-height: 25px; /* Centre le texte verticalement */
+    line-height: 25px;
     color: #555;
     font-size: 0.9em;
     top: 0;
     left: 0;
 }
 
-
 /* Messages de réponse (ajoutés pour le retour visuel) */
 #message {
     margin-bottom: 10px;
     font-weight: bold;
     font-size: 1.3em;
-    min-height: 1.5em; /* Empêche les sauts de contenu */
-    color: #333; /* Couleur par défaut */
+    min-height: 1.5em;
+    color: #333;
 }
 
 /* Effets visuels pour les réponses */
 .bonne-reponse {
-    border: 5px solid #28a745; /* Vert pour bonne réponse */
+    border: 5px solid #28a745;
     box-shadow: 0 0 20px rgba(40, 167, 69, 0.6);
 }
 
 .mauvaise-reponse {
-    border: 5px solid #dc3545; /* Rouge pour mauvaise réponse */
+    border: 5px solid #dc3545;
     box-shadow: 0 0 20px rgba(220, 53, 69, 0.6);
 }
 
@@ -242,21 +269,21 @@ button:active {
    ========================================================================== */
 #video-container {
     position: relative;
-    width: 80%; /* Ajustez la largeur selon vos préférences */
-    max-width: 600px; /* Taille maximale */
-    margin: 20px auto; /* Centre la vidéo et donne de l'espace */
-    aspect-ratio: 16 / 9; /* Ratio 16:9 pour les vidéos YouTube */
-    background-color: #000; /* Fond noir pour les bordures */
+    width: 80%;
+    max-width: 600px;
+    margin: 20px auto;
+    aspect-ratio: 16 / 9;
+    background-color: #000;
     border-radius: 10px;
-    overflow: hidden; /* S'assure que rien ne dépasse */
-    cursor: pointer; /* Indique que le conteneur est cliquable */
+    overflow: hidden;
+    cursor: pointer;
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
 
-#youtube-intro-video { /* Cible l'iframe YouTube */
+#youtube-intro-video {
     width: 100%;
     height: 100%;
-    display: block; /* Supprime l'espace sous l'iframe */
+    display: block;
 }
 
 /* Style de l'overlay avec le bouton "Play" */
@@ -266,7 +293,7 @@ button:active {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.6); /* Fond sombre semi-transparent */
+    background-color: rgba(0, 0, 0, 0.6);
     color: white;
     display: flex;
     justify-content: center;
@@ -275,12 +302,12 @@ button:active {
     font-weight: bold;
     text-align: center;
     cursor: pointer;
-    transition: opacity 0.3s ease; /* Transition douce pour l'opacité */
-    z-index: 10; /* S'assure que l'overlay est au-dessus de la vidéo */
+    transition: opacity 0.3s ease;
+    z-index: 10;
 }
 
 #video-overlay:hover {
-    background-color: rgba(0, 0, 0, 0.75); /* Rend le fond un peu plus sombre au survol */
+    background-color: rgba(0, 0, 0, 0.75);
 }
 
 /* ==========================================================================
@@ -311,15 +338,28 @@ button:active {
     .container {
         padding: 20px;
         max-width: 95%;
+        width: auto; /* Permet au conteneur de s'adapter sur des écrans plus petits */
     }
 
     #accueil h1 {
         font-size: 2.5em;
     }
 
-    button {
+    button { /* Boutons de l'accueil */
         padding: 12px 25px;
         font-size: 1em;
+    }
+
+    .buttons { /* Conteneur des boutons Oui/Non */
+        flex-direction: column; /* Empile les boutons Oui/Non verticalement */
+        gap: 10px;
+    }
+
+    #btn-vert, #btn-rouge { /* Boutons Oui/Non */
+        padding: 15px 30px; /* Ajustement de la taille pour mobile */
+        font-size: 1.2em;
+        width: 80%; /* Occupe plus de largeur */
+        margin: 0 auto; /* Centre les boutons empilés */
     }
 
     #question-texte {
@@ -340,11 +380,7 @@ button:active {
         font-size: 2em;
     }
 
-    button {
-        padding: 10px 20px;
-        font-size: 0.9em;
-        margin: 5px;
-    }
+    /* Les styles des boutons Oui/Non sont déjà ajustés dans le media query précédent */
 
     #question-texte {
         font-size: 1.2em;
