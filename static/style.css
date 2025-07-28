@@ -34,6 +34,14 @@ body {
     width: 500px; /* Largeur pour l'accueil */
     position: relative;
     z-index: 2;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#level-1-quiz-container {
+    min-height: 50vh; 
 }
 
 /* ==========================================================================
