@@ -34,10 +34,6 @@ body {
     width: 500px; /* Largeur pour l'accueil */
     position: relative;
     z-index: 2;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
 }
 #level-1-quiz-container {
     min-height: 50vh; /* Ajustez cette valeur (par exemple 50vh, 60vh) pour la hauteur souhaitée */
