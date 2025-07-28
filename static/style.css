@@ -392,30 +392,21 @@ button:active {
    9. Niveau 2
    ========================================================================== */
 
-/* Styles spécifiques pour le Niveau 2 (images multiples) */
-.image-paire-container {
-    display: flex; /* Active Flexbox */
-    justify-content: center; /* Centre les images horizontalement */
-    align-items: center; /* Aligne les images verticalement */
-    gap: 15px; /* <--- AJOUT ICI : Espace entre les deux images */
-    margin-bottom: 15px; /* <--- AJOUT ICI : Marge sous le conteneur des images */
-    flex-wrap: wrap; /* Permet aux images de passer à la ligne sur petits écrans */
+#question-image {
+  width: 250px;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
-.image-paire {
-    width: 45%; /* <--- AJOUT ICI : Chaque image prend environ la moitié de la largeur du conteneur */
-    max-width: 200px; /* <--- AJOUT ICI : Taille maximale pour chaque image */
-    height: 180px; /* <--- AJOUT ICI : Hauteur fixe pour uniformiser */
-    object-fit: contain; /* <--- AJOUT ICI : Conserve le ratio d'aspect sans rogner, ajuste l'image à la boîte */
-    border: 5px solid #ddd; /* Une petite bordure pour les images */
+.clickable-image {
+    width: 165px; /* Gardez la taille que vous voulez */
+    height: 165px; /* Pour s'assurer qu'elles sont carrées si object-fit: cover */
+    object-fit: cover;
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    animation-duration: 0.5s;
-    animation-fill-mode: forwards;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    cursor: pointer; /* Indique qu'elle est cliquable */
+    transition: transform 0.2s ease, box-shadow 0.2s ease; /* Pour l'effet au survol */
 }
 
-/* Vous pouvez ajouter un hover pour les images aussi si vous le souhaitez */
-.image-paire:hover {
-    transform: scale(1.02);
-    transition: transform 0.2s ease;
-}
