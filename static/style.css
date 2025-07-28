@@ -32,7 +32,7 @@ body {
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2); /* Ombre portée prononcée */
     text-align: center; /* Texte centré */
     max-width: 90%; /* Largeur maximale relative */
-    width: 500px; /* Largeur fixe par défaut pour le conteneur */
+    width: 800px; /* Largeur fixe par défaut pour le conteneur */
     position: relative;
     z-index: 2; /* S'assure qu'il est au-dessus d'autres éléments de fond */
     box-sizing: border-box;
