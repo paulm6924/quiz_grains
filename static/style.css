@@ -56,12 +56,12 @@ body {
     }
 
     & #question-texte { /* Cible le texte de la question */
-        font-size: 1.0em; /* Exemple: réduire la taille du texte de la question */
+        font-size: 1.3em; /* Exemple: réduire la taille du texte de la question */
         margin-bottom: 10px; /* Ajuster la marge si nécessaire */
     }
 
     & #progression { /* Cible la barre de progression */
-        height: 15px; /* Exemple: réduire la hauteur de la barre de progression */
+        height: 12px; /* Exemple: réduire la hauteur de la barre de progression */
         margin-bottom: 10px; /* Ajuster la marge si nécessaire */
     }
 }
