@@ -409,8 +409,8 @@ button:active {
 }
 
 .clickable-image {
-    width: 190px; /* Gardez la taille que vous voulez */
-    height: 190px; /* Pour s'assurer qu'elles sont carrées si object-fit: cover */
+    width: 175px; /* Gardez la taille que vous voulez */
+    height: 175px; /* Pour s'assurer qu'elles sont carrées si object-fit: cover */
     object-fit: cover;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
