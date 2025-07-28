@@ -46,7 +46,7 @@ body {
 
 /* Style SPÉCIFIQUE pour le conteneur du Niveau 1 */
 #level-1-quiz-container {
-    min-height: 50vh; /* Ajustez cette valeur (par exemple 50vh, 60vh) pour la hauteur souhaitée */
+    min-height: 100vh; /* Ajustez cette valeur (par exemple 50vh, 60vh) pour la hauteur souhaitée */
     /* Ces styles peuvent être spécifiques au Niveau 1 sans affecter les autres */
 
     /* AJUSTEMENTS POUR LE TITRE ET L'IMAGE DU NIVEAU 1 */
