@@ -83,9 +83,19 @@ body {
 /* ==========================================================================
    3. Styles pour le Fond Défilant (Si vous avez un élément pour ça)
    ========================================================================== */
-/* Si vous avez un élément spécifique qui crée un fond défilant,
-   ses styles iraient ici. S'il s'agissait du body, il faut revoir.
-   Je suppose ici qu'il y a un élément distinct. */
+.scrolling-background {
+    position: fixed; /* Fixe l'élément en fond par rapport à la vue */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* C'est ici que l'image de fond doit être définie */
+    background-image: url('{{ url_for("static", filename="votre_image_de_fond.jpg") }}'); /* REMPLACER PAR LE CHEMIN DE VOTRE IMAGE JPEG */
+    background-size: cover; /* S'assure que l'image couvre toute la zone, sans déformation */
+    background-position: center; /* Centre l'image */
+    background-repeat: no-repeat; /* Empêche la répétition de l'image */
+    z-index: 1; /* S'assure qu'il est en arrière-plan (derrière le .container) */
+}
 
 /* ==========================================================================
    4. Styles de l'Accueil (Accueil, Titres, Boutons)
