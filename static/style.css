@@ -410,3 +410,9 @@ button:active {
     transition: transform 0.2s ease, box-shadow 0.2s ease; /* Pour l'effet au survol */
 }
 
+.clickable-image:hover {
+    transform: scale(1.03); /* Légère augmentation à l'approche de la souris */
+    box-shadow: 0 0 15px rgba(0,0,0,0.2); /* Ombre plus prononcée au survol */
+}
+
+
