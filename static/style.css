@@ -6,7 +6,7 @@
 /* ==========================================================================
    1. Importation de la police Righteous
    ========================================================================== */
-/* ... (pas de changement ici) ... */
+@import url('https://fonts.googleapis.com/css2?family=Righteous&display=swap');
 
 /* ==========================================================================
    2. Styles Généraux du Corps (body) et Conteneur Principal
@@ -14,27 +14,37 @@
 body {
     margin: 0;
     font-family: 'Righteous', sans-serif;
-    background-color: #f0f0f0;
+    background-color: #f0f0f0; /* Couleur d'arrière-plan du body */
     color: #333;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    overflow: hidden;
+    display: flex; /* Active Flexbox pour centrer le contenu */
+    justify-content: center; /* Centre horizontalement le contenu */
+    align-items: center; /* Centre verticalement le contenu */
+    min-height: 100vh; /* Assure que le body prend au moins toute la hauteur de la fenêtre */
+    overflow: hidden; /* Cache le débordement */
     position: relative;
+    box-sizing: border-box;
 }
 
 .container {
-    background-color: rgba(255, 255, 255, 0.9);
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    max-width: 90%;
-    width: 500px; /* Largeur pour l'accueil */
+    background-color: rgba(255, 255, 255, 0.9); /* Fond blanc semi-transparent */
+    padding: 30px; /* Espacement interne */
+    border-radius: 15px; /* Coins arrondis */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2); /* Ombre portée prononcée */
+    text-align: center; /* Texte centré */
+    max-width: 90%; /* Largeur maximale relative */
+    width: 500px; /* Largeur fixe par défaut pour le conteneur */
     position: relative;
-    z-index: 2;
+    z-index: 2; /* S'assure qu'il est au-dessus d'autres éléments de fond */
+    box-sizing: border-box;
+
+    /* Assure que le conteneur lui-même est un Flexbox pour son contenu interne si nécessaire */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
+
+/* Style SPÉCIFIQUE pour le conteneur du Niveau 1 */
 #level-1-quiz-container {
     min-height: 50vh; /* Ajustez cette valeur (par exemple 50vh, 60vh) pour la hauteur souhaitée */
     /* Ces styles peuvent être spécifiques au Niveau 1 sans affecter les autres */
@@ -51,6 +61,7 @@ body {
         margin-bottom: 10px; /* Ajuster la marge si nécessaire */
     }
 
+    /* Styles pour le texte de la question et la barre de progression */
     & #question-texte { /* Cible le texte de la question */
         font-size: 1.3em; /* Exemple: réduire la taille du texte de la question */
         margin-bottom: 10px; /* Ajuster la marge si nécessaire */
@@ -61,10 +72,20 @@ body {
         margin-bottom: 10px; /* Ajuster la marge si nécessaire */
     }
 }
+
+/* Style pour le conteneur du Niveau 3 si vous voulez qu'il soit différent/plus grand que le Niveau 1 */
+/* Si le Niveau 3 a un ID comme 'level-3-quiz-container', vous pouvez le styliser séparément ici */
+/* #level-3-quiz-container {
+    min-height: 70vh;
+} */
+
+
 /* ==========================================================================
-   3. Styles pour le Fond Défilant
+   3. Styles pour le Fond Défilant (Si vous avez un élément pour ça)
    ========================================================================== */
-/* ... (pas de changement ici) ... */
+/* Si vous avez un élément spécifique qui crée un fond défilant,
+   ses styles iraient ici. S'il s'agissait du body, il faut revoir.
+   Je suppose ici qu'il y a un élément distinct. */
 
 /* ==========================================================================
    4. Styles de l'Accueil (Accueil, Titres, Boutons)
@@ -113,115 +134,99 @@ button:active {
    5. Styles de la Zone de Jeu (inclut tous les niveaux)
    ========================================================================== */
 #jeu {
-    display: none; /* Masqué par défaut, affiché par JS */
-    padding: 10px; /* <--- MODIFICATION ICI : Réduction du padding général du jeu */
-    /* Pour Niveau 1 et 3 : Ajuster la hauteur du conteneur `.container` pour le jeu */
-    /* Cette partie sera gérée plus finement par les marges internes ci-dessous */
+    /* Je suppose que #jeu est le conteneur direct des éléments du quiz */
+    /* Il doit être visible lorsque le quiz est actif */
+    display: block; /* S'assurer qu'il n'est pas masqué par défaut si le JS l'affiche */
+    padding: 10px; /* Padding interne pour le contenu du jeu */
+    /* Ces styles généraux s'appliquent à tous les niveaux à moins d'être surchargés par des IDs */
 }
 
-/* Ajustement pour le conteneur principal quand un niveau est actif */
-/* Cible le .container seulement quand #jeu est visible */
-.container:has(#jeu[style*="block"]) {
-    /* Si nécessaire, vous pouvez ajuster la hauteur max ici, mais les marges internes sont plus flexibles */
-    /* max-height: 85vh; */ /* Exemple, à tester */
-    /* overflow-y: auto; */ /* Si le contenu dépasse, permet le défilement */
-    padding-top: 20px; /* <--- MODIFICATION ICI : Réduire le padding en haut et en bas */
-    padding-bottom: 20px; /* <--- MODIFICATION ICI : Réduire le padding en haut et en bas */
-}
-
-
-#jeu h1 { /* Titres des niveaux */
+#jeu h1 { /* Titres des niveaux (générique) */
     font-size: 2.5em;
     color: #2c3e50;
-    margin-bottom: 15px; /* <--- MODIFICATION ICI : Réduire la marge sous le titre */
+    margin-bottom: 15px;
     font-family: 'Righteous', cursive;
 }
 
-#question-image {
+#question-image { /* Image de question (générique) */
     max-width: 100%;
     height: auto;
-    max-height: 250px; /* <--- MODIFICATION ICI : Réduction de la hauteur max des images pour Nv1/Nv3 */
+    max-height: 250px;
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    margin-bottom: 15px; /* <--- MODIFICATION ICI : Réduire la marge sous l'image */
+    margin-bottom: 15px;
     animation-duration: 0.5s;
     animation-fill-mode: forwards;
 }
 
-#question-texte {
+#question-texte { /* Texte de la question (générique) */
     font-size: 1.8em;
     color: #444;
-    margin-bottom: 15px; /* <--- MODIFICATION ICI : Réduire la marge sous le texte */
+    margin-bottom: 15px;
     min-height: 2.5em;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.buttons {
-    margin-top: 15px; /* <--- MODIFICATION ICI : Réduire la marge au-dessus des boutons */
+.buttons { /* Conteneur des boutons (générique) */
+    margin-top: 15px;
     display: flex;
     justify-content: center;
     gap: 20px;
 }
 
-/* Bouton "Oui" (vert) - Niveaux du quiz */
+/* Boutons Oui/Non (générique) */
 #btn-vert {
     background-color: #28a745;
     padding: 18px 40px;
     font-size: 1.5em;
 }
-
 #btn-vert:hover {
     background-color: #218838;
 }
 
-/* Bouton "Non" (rouge) - Niveaux du quiz */
 #btn-rouge {
     background-color: #dc3545;
     padding: 18px 40px;
     font-size: 1.5em;
 }
-
 #btn-rouge:hover {
     background-color: #c82333;
 }
 
-#btn-credit {
+#btn-credit { /* Bouton de crédit (générique) */
     position: fixed;
     bottom: 20px;
     right: 20px;
     background-color: #3498db;
     z-index: 10;
 }
-
 #btn-credit:hover {
     background-color: #2980b9;
 }
 
-#score {
+#score { /* Score (générique) */
     font-size: 1.5em;
     font-weight: bold;
-    margin-top: 15px; /* <--- MODIFICATION ICI : Réduire la marge au-dessus du score */
+    margin-top: 15px;
     color: #333;
 }
 
-/* Styles pour la barre de progression */
+/* Styles pour la barre de progression (générique) */
 #progression {
     width: 100%;
     background-color: #e0e0e0;
     border-radius: 5px;
-    margin-bottom: 15px; /* <--- MODIFICATION ICI : Réduire la marge sous la barre de progression */
+    margin-bottom: 15px;
     height: 25px;
     overflow: hidden;
 }
-
 #progression-barre {
     width: 100%;
     height: 100%;
     position: relative;
 }
-
 #progression-remplie {
     height: 100%;
     width: 0%;
@@ -229,7 +234,6 @@ button:active {
     border-radius: 5px;
     transition: width 0.5s ease-in-out;
 }
-
 #progression-texte {
     position: absolute;
     width: 100%;
@@ -241,7 +245,7 @@ button:active {
     left: 0;
 }
 
-/* Messages de réponse (ajoutés pour le retour visuel) */
+/* Messages de réponse (générique) */
 #message {
     margin-bottom: 10px;
     font-weight: bold;
@@ -250,18 +254,17 @@ button:active {
     color: #333;
 }
 
-/* Effets visuels pour les réponses */
+/* Effets visuels pour les réponses (générique) */
 .bonne-reponse {
     border: 5px solid #28a745;
     box-shadow: 0 0 20px rgba(40, 167, 69, 0.6);
 }
-
 .mauvaise-reponse {
     border: 5px solid #dc3545;
     box-shadow: 0 0 20px rgba(220, 53, 69, 0.6);
 }
 
-/* Animation d'entrée pour les images */
+/* Animation d'entrée pour les images (générique) */
 @keyframes entree {
     from {
         opacity: 0;
@@ -272,7 +275,6 @@ button:active {
         transform: scale(1);
     }
 }
-
 .entree {
     animation-name: entree;
 }
@@ -280,11 +282,11 @@ button:active {
 /* ==========================================================================
    6. Styles de la Vidéo (si présente)
    ========================================================================== */
-/* ... (pas de changement ici) ... */
+/* ... (garder vos styles existants pour la vidéo) ... */
 
 /* ==========================================================================
    7. Styles pour la page de Crédits
-   ========================================================================== */
+   ========================================================================= */
 #credits-page {
     background-color: white;
     padding: 40px;
@@ -292,65 +294,55 @@ button:active {
     box-shadow: 0 0 30px rgba(0,0,0,0.1);
     text-align: center;
     width: 90%;
-    max-width: 800px; /* Peut être un peu plus large si le contenu est dense */
-    position: relative; /* Pour positionner les éléments internes si besoin */
-    margin: 20px auto; /* Centre la page si le container ne le fait pas */
+    max-width: 800px;
+    position: relative;
+    margin: 20px auto;
 }
-
 .credits-content h2 {
     color: #2c3e50;
     margin-bottom: 25px;
     font-size: 2.2em;
 }
-
 .credits-content h3 {
     color: #34495e;
     margin-top: 30px;
     margin-bottom: 15px;
     font-size: 1.6em;
 }
-
 .credits-content p, .credits-content ul {
     font-size: 1.1em;
     line-height: 1.6;
     color: #555;
     margin-bottom: 15px;
 }
-
 .credits-content ul {
-    list-style-type: none; /* Enlève les puces par défaut */
+    list-style-type: none;
     padding: 0;
-    margin: 0 auto 20px; /* Centre la liste */
+    margin: 0 auto 20px;
     max-width: 600px;
-    text-align: left; /* Alignement du texte à gauche pour les listes */
+    text-align: left;
 }
-
 .credits-content ul li {
     margin-bottom: 8px;
 }
-
-.credits-content ul ul { /* Pour les sous-listes (ex: source des sons) */
+.credits-content ul ul {
     margin-left: 20px;
     font-size: 0.95em;
     color: #666;
 }
-
 .credits-content .copyright {
     margin-top: 30px;
     font-size: 0.9em;
     color: #888;
 }
-
-/* Style du bouton "Retour au Menu" dans la page de crédits */
 .credits-content button {
-    background-color: #007bff; /* Bleu standard */
+    background-color: #007bff;
     color: white;
     margin-top: 30px;
     padding: 12px 25px;
     font-size: 18px;
     border-radius: 10px;
 }
-
 .credits-content button:hover {
     background-color: #0056b3;
 }
@@ -364,36 +356,35 @@ button:active {
         max-width: 95%;
         width: auto;
     }
-
     #accueil h1 {
         font-size: 2.5em;
     }
-
     button {
         padding: 12px 25px;
         font-size: 1em;
     }
-
     .buttons {
         flex-direction: column;
         gap: 10px;
     }
-
     #btn-vert, #btn-rouge {
         padding: 15px 30px;
         font-size: 1.2em;
         width: 80%;
         margin: 0 auto;
     }
-
     #question-texte {
         font-size: 1.5em;
     }
-
     #score {
         font-size: 1.2em;
     }
-
+    #progression {
+        height: 20px; /* Légèrement plus petite sur mobile */
+    }
+    #progression-texte {
+        line-height: 20px;
+    }
     #video-container {
         width: 95%;
     }
@@ -403,41 +394,35 @@ button:active {
     #accueil h1 {
         font-size: 2em;
     }
-
     #question-texte {
         font-size: 1.2em;
     }
-
     #message {
         font-size: 1em;
     }
 }
 
 /* ==========================================================================
-   9. Niveau 2
+   9. Niveau 2 (Styles spécifiques si différents des autres niveaux)
    ========================================================================== */
-
-#question-image {
-  width: 250px;
-  height: 250px;
-  object-fit: cover;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-}
-
-.clickable-image {
-    width: 175px; /* Gardez la taille que vous voulez */
-    height: 175px; /* Pour s'assurer qu'elles sont carrées si object-fit: cover */
+/* Si Niveau 2 a des images cliquables spécifiques */
+#question-image { /* Ce sélecteur existe déjà mais je le mets ici pour montrer qu'il peut être override */
+    width: 250px;
+    height: 250px;
     object-fit: cover;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    cursor: pointer; /* Indique qu'elle est cliquable */
-    transition: transform 0.2s ease, box-shadow 0.2s ease; /* Pour l'effet au survol */
 }
-
+.clickable-image { /* Pour les images cliquables de Niveau 2 */
+    width: 175px;
+    height: 175px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
 .clickable-image:hover {
-    transform: scale(1.03); /* Légère augmentation à l'approche de la souris */
-    box-shadow: 0 0 15px rgba(0,0,0,0.2); /* Ombre plus prononcée au survol */
+    transform: scale(1.03);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
 }
-
-
