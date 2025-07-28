@@ -30,24 +30,27 @@ const zoneJeu = document.getElementById("jeu");
 
 // Contenu HTML du niveau 1, avec les IDs de boutons mis à jour et l'élément 'message' ajouté
 zoneJeu.innerHTML = `
-    <h1>Niveau 1 : Savoir Decrire</h1>
+    <div class="container" id="level-1-quiz-container">
+        <h1>Niveau 1 : Savoir Decrire</h1>
 
-    <div id="progression">
-        <div id="progression-barre">
-            <div id="progression-remplie"></div>
+        <div id="progression">
+            <div id="progression-barre">
+                <div id="progression-remplie"></div>
+            </div>
+            <div id="progression-texte">Question 1 sur ${questionsNiveau1.length}</div>
         </div>
-        <div id="progression-texte">Question 1 sur ${questionsNiveau1.length}</div>
+
+        <img id="question-image" src="" alt="Image de grain de beaute" />
+
+        <h2 id="question-texte"></h2>
+        <div id="message" style="margin-bottom: 10px; font-weight: bold;"></div>
+        <div class="buttons">
+            <button id="btn-vert">Oui</button>
+            <button id="btn-rouge">Non</button>
+        </div>
+
+        <div id="score">Score : 0</div>
     </div>
-
-    <img id="question-image" src="" alt="Image de grain de beaute" />
-
-    <h2 id="question-texte"></h2>
-    <div id="message" style="margin-bottom: 10px; font-weight: bold;"></div> <div class="buttons">
-        <button id="btn-vert">Oui</button>
-        <button id="btn-rouge">Non</button>
-    </div>
-
-    <div id="score">Score : 0</div>
 `;
 
 // Références aux éléments HTML, avec les IDs mis à jour pour les boutons
