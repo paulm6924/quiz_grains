@@ -2,13 +2,19 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <!-- Meta tag pour l'affichage mobile et plein écran -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Quiz - Choix du Niveau</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
-    <!-- Styles CSS spécifiques pour le bouton plein écran - Intégrés depuis game_mobile_display_code -->
+    <!-- Vos liens Google Fonts et Youtube existants -->
+    <link rel="preconnect" href="https://googleusercontent.com/">
+    <link rel="preconnect" href="https://googleusercontent.com/" crossorigin>
+    <link href="http://googleusercontent.com/css2?family=Righteous&display=swap" rel="stylesheet">
+    <script src="https://www.youtube.com/iframe_api"></script>
+
+    <!-- Styles CSS spécifiques pour le bouton plein écran -->
     <style>
-        /* Styles CSS pour centrer le bouton plein écran */
         #fullscreen-button-container {
             position: fixed;
             bottom: 20px;
@@ -25,21 +31,19 @@
             cursor: pointer;
             font-size: 1em;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            font-family: 'Righteous', sans-serif; /* Utilise la police de votre jeu */
+            font-family: 'Righteous', sans-serif;
         }
         #fullscreen-button:hover {
             background-color: #0056b3;
         }
     </style>
 
-    <!-- Scripts JavaScript pour le mode plein écran et masquage barre d'adresse - Intégrés depuis game_mobile_display_code -->
+    <!-- Scripts JavaScript pour le mode plein écran et masquage barre d'adresse -->
     <script>
         // Fonction pour tenter de masquer la barre d'adresse sur mobile (scroll)
         function hideAddressBar() {
-            // Utilise requestAnimationFrame pour s'assurer que le rendu est stable
-            // Et un petit délai pour les navigateurs lents
             setTimeout(function() {
-                window.scrollTo(0, 1); // Défile d'un pixel pour masquer la barre d'adresse
+                window.scrollTo(0, 1);
             }, 0);
         }
 
@@ -52,12 +56,10 @@
         // Fonction pour activer le mode plein écran (Full-Screen API)
         function toggleFullScreen() {
             if (!document.fullscreenElement) {
-                // Si le document n'est pas en mode plein écran, activez-le
                 document.documentElement.requestFullscreen().catch(err => {
                     console.error(`Erreur d'activation du plein écran: ${err.message}`);
                 });
             } else {
-                // Sinon, quittez le mode plein écran
                 if (document.exitFullscreen) {
                     document.exitFullscreen();
                 }
@@ -68,24 +70,14 @@
         document.addEventListener('fullscreenchange', () => {
             const button = document.getElementById('fullscreen-button');
             if (document.fullscreenElement) {
-                // Optionnel: Masquer le bouton une fois en plein écran, ou changer son texte
-                // button.textContent = 'Quitter le plein écran';
-                // button.style.display = 'none';
+                // Vous pouvez masquer le bouton ou changer son texte ici si le mode plein écran est actif
             } else {
-                // button.textContent = 'Mode plein écran';
-                // button.style.display = 'block';
+                // Rétablir le bouton ou son texte si le mode plein écran est désactivé
             }
-            // Tenter de masquer la barre d'adresse à nouveau au changement de mode plein écran
-            hideAddressBar();
+            hideAddressBar(); // Tenter de masquer la barre d'adresse à nouveau au changement de mode plein écran
         });
-
     </script>
 
-    <!-- Vos liens Google Fonts et Youtube existants -->
-    <link rel="preconnect" href="https://googleusercontent.com/">
-    <link rel="preconnect" href="https://googleusercontent.com/" crossorigin>
-    <link href="http://googleusercontent.com/css2?family=Righteous&display=swap" rel="stylesheet">
-    <script src="https://www.youtube.com/iframe_api"></script>
 </head>
 <body>
     <div class="scrolling-background"></div>
@@ -107,7 +99,7 @@
         </div>
     </div>
 
-    <!-- Bouton pour activer/désactiver le mode plein écran - Intégré depuis game_mobile_display_code -->
+    <!-- Bouton pour activer/désactiver le mode plein écran -->
     <div id="fullscreen-button-container">
         <button id="fullscreen-button" onclick="toggleFullScreen()">Mode plein écran</button>
     </div>
@@ -115,6 +107,7 @@
     <button id="btn-credit" onclick="affichercredit()">Crédits</button>
 
     <script>
+        // Obtenez l'URL de base du dossier static de Flask
         const staticBaseUrl = "{{ url_for('static', filename='') }}";
 
         function chargerNiveau(numero) {
@@ -124,7 +117,7 @@
 
             // Crée et ajoute le script JS du niveau choisi
             const script = document.createElement("script");
-            script.src = staticBaseUrl + "js/niveau" + numero + ".js"; /* Correction du chemin, ajout de js/ */
+            script.src = staticBaseUrl + "niveau" + numero + ".js"; // Le chemin est 'static/niveauX.js'
             document.body.appendChild(script);
 
             script.onload = () => {
@@ -140,20 +133,13 @@
             document.getElementById("jeu").style.display = "none";
             const creditPage = document.getElementById("credit-page");
             creditPage.style.display = "block";
-            // Normalement, vous chargeriez le contenu de credit.html ici si c'est dynamique,
-            // ou bien la route 'credit' devrait simplement rendre le template credit.html.
-            // Si credit.html est un template Flask, vous pouvez utiliser:
-            // fetch("{{ url_for('credit_route_name') }}")
-            //     .then(response => response.text())
-            //     .then(html => { creditPage.innerHTML = html; });
-            // Pour l'exemple, nous allons simplement rediriger si c'est une route séparée.
-            window.location.href = "{{ url_for('credit') }}"; /* Assurez-vous d'avoir une route Flask nommée 'credit' */
+            // Redirige vers la route Flask '/credit'
+            window.location.href = "{{ url_for('credit') }}";
         }
 
         function retourMenu() {
-            // Cette fonction doit recharger la page d'accueil, elle peut être appelée
-            // depuis les scripts niveauX.js ou credit.js si le bouton "Retour au Menu" est là.
-            window.location.href = "{{ url_for('index') }}"; /* Assurez-vous d'avoir une route Flask nommée 'index' */
+            // Recharge la page d'accueil
+            window.location.href = "{{ url_for('index') }}";
         }
     </script>
 </body>
