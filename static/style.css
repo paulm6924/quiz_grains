@@ -260,7 +260,75 @@ button:active {
 /* ==========================================================================
    7. Styles pour la page de Crédits
    ========================================================================== */
-/* ... (pas de changement ici) ... */
+#credits-page {
+    background-color: white;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 0 30px rgba(0,0,0,0.1);
+    text-align: center;
+    width: 90%;
+    max-width: 800px; /* Peut être un peu plus large si le contenu est dense */
+    position: relative; /* Pour positionner les éléments internes si besoin */
+    margin: 20px auto; /* Centre la page si le container ne le fait pas */
+}
+
+.credits-content h2 {
+    color: #2c3e50;
+    margin-bottom: 25px;
+    font-size: 2.2em;
+}
+
+.credits-content h3 {
+    color: #34495e;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    font-size: 1.6em;
+}
+
+.credits-content p, .credits-content ul {
+    font-size: 1.1em;
+    line-height: 1.6;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.credits-content ul {
+    list-style-type: none; /* Enlève les puces par défaut */
+    padding: 0;
+    margin: 0 auto 20px; /* Centre la liste */
+    max-width: 600px;
+    text-align: left; /* Alignement du texte à gauche pour les listes */
+}
+
+.credits-content ul li {
+    margin-bottom: 8px;
+}
+
+.credits-content ul ul { /* Pour les sous-listes (ex: source des sons) */
+    margin-left: 20px;
+    font-size: 0.95em;
+    color: #666;
+}
+
+.credits-content .copyright {
+    margin-top: 30px;
+    font-size: 0.9em;
+    color: #888;
+}
+
+/* Style du bouton "Retour au Menu" dans la page de crédits */
+.credits-content button {
+    background-color: #007bff; /* Bleu standard */
+    color: white;
+    margin-top: 30px;
+    padding: 12px 25px;
+    font-size: 18px;
+    border-radius: 10px;
+}
+
+.credits-content button:hover {
+    background-color: #0056b3;
+}
 
 /* ==========================================================================
    8. Responsive Design (Ajustements pour les petits écrans)
@@ -318,4 +386,36 @@ button:active {
     #message {
         font-size: 1em;
     }
+}
+
+/* ==========================================================================
+   9. Niveau 2
+   ========================================================================== */
+
+/* Styles spécifiques pour le Niveau 2 (images multiples) */
+.image-paire-container {
+    display: flex; /* Active Flexbox */
+    justify-content: center; /* Centre les images horizontalement */
+    align-items: center; /* Aligne les images verticalement */
+    gap: 15px; /* <--- AJOUT ICI : Espace entre les deux images */
+    margin-bottom: 15px; /* <--- AJOUT ICI : Marge sous le conteneur des images */
+    flex-wrap: wrap; /* Permet aux images de passer à la ligne sur petits écrans */
+}
+
+.image-paire {
+    width: 45%; /* <--- AJOUT ICI : Chaque image prend environ la moitié de la largeur du conteneur */
+    max-width: 200px; /* <--- AJOUT ICI : Taille maximale pour chaque image */
+    height: 180px; /* <--- AJOUT ICI : Hauteur fixe pour uniformiser */
+    object-fit: contain; /* <--- AJOUT ICI : Conserve le ratio d'aspect sans rogner, ajuste l'image à la boîte */
+    border: 5px solid #ddd; /* Une petite bordure pour les images */
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+}
+
+/* Vous pouvez ajouter un hover pour les images aussi si vous le souhaitez */
+.image-paire:hover {
+    transform: scale(1.02);
+    transition: transform 0.2s ease;
 }
