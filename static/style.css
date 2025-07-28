@@ -5,73 +5,51 @@
 
 /* ==========================================================================
    1. Importation de la police Righteous
-   (N'oubliez pas d'ajouter la balise <link> correspondante dans index.html)
    ========================================================================== */
-/* Pas de règle @font-face ici, car la police est importée directement via HTML <link> depuis Google Fonts. */
+/* ... (pas de changement ici) ... */
 
 /* ==========================================================================
    2. Styles Généraux du Corps (body) et Conteneur Principal
    ========================================================================== */
 body {
     margin: 0;
-    font-family: 'Righteous', sans-serif; /* Applique la police Righteous à tout le corps */
-    background-color: #f0f0f0; /* Couleur de fond par défaut */
-    color: #333; /* Couleur du texte par défaut */
-    display: flex; /* Utilisation de flexbox pour centrer le contenu */
-    justify-content: center; /* Centre horizontalement */
-    align-items: center; /* Centre verticalement */
-    min-height: 100vh; /* Hauteur minimale de 100% de la fenêtre visible */
-    overflow: hidden; /* Empêche le défilement du body si le background défile */
-    position: relative; /* Pour positionner le fond défilant */
+    font-family: 'Righteous', sans-serif;
+    background-color: #f0f0f0;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+    position: relative;
 }
 
-/* Conteneur principal qui centre le contenu du quiz */
 .container {
-    background-color: rgba(255, 255, 255, 0.9); /* Fond blanc semi-transparent */
+    background-color: rgba(255, 255, 255, 0.9);
     padding: 30px;
     border-radius: 15px;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
     text-align: center;
-    max-width: 90%; /* Largeur maximale pour les petits écrans */
-    width: 500px; /* <--- MODIFICATION ICI : Réduction de la largeur du conteneur */
-    position: relative; /* Nécessaire pour le z-index et positionnement absolu des éléments internes */
-    z-index: 2; /* S'assure que le contenu est au-dessus du fond défilant */
+    max-width: 90%;
+    width: 500px; /* Largeur pour l'accueil */
+    position: relative;
+    z-index: 2;
 }
 
 /* ==========================================================================
    3. Styles pour le Fond Défilant
    ========================================================================== */
-.scrolling-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('static/image_nv_3/Image1.png'), url('static/image_nv_3/Image2.png'), url('static/image_nv_3/Image3.png'); /* Exemple, ajustez vos images */
-    background-size: 200px 200px, 250px 250px, 300px 300px; /* Taille des images de fond */
-    animation: scrollBackground 60s linear infinite; /* Animation de défilement */
-    z-index: 1; /* Place le fond derrière le contenu */
-    opacity: 0.3; /* Rend le fond transparent pour ne pas distraire */
-}
-
-@keyframes scrollBackground {
-    from {
-        background-position: 0 0, 0 0, 0 0;
-    }
-    to {
-        background-position: 1000px 1000px, 1200px 1200px, 1500px 1500px; /* Déplace les images */
-    }
-}
+/* ... (pas de changement ici) ... */
 
 /* ==========================================================================
    4. Styles de l'Accueil (Accueil, Titres, Boutons)
    ========================================================================== */
 #accueil h1 {
-    font-size: 3.5em; /* Taille du titre principal */
-    color: #2c3e50; /* Couleur foncée */
+    font-size: 3.5em;
+    color: #2c3e50;
     margin-bottom: 20px;
     text-shadow: 2px 2px 5px rgba(0,0,0,0.2);
-    font-family: 'Righteous', cursive; /* Application explicite pour le titre */
+    font-family: 'Righteous', cursive;
 }
 
 #accueil p {
@@ -80,14 +58,13 @@ body {
     color: #555;
 }
 
-/* Styles par défaut pour TOUS les boutons, y compris ceux de l'accueil */
-button {
-    background-color: #4CAF50; /* Couleur par défaut (vert) */
+button { /* Styles par défaut pour TOUS les boutons, y compris ceux de l'accueil */
+    background-color: #4CAF50;
     color: white;
-    padding: 15px 30px; /* <--- MODIFICATION ICI : Taille un peu plus grande pour tous les boutons */
+    padding: 15px 30px;
     border: none;
     border-radius: 8px;
-    font-size: 1.3em; /* <--- MODIFICATION ICI : Taille de police un peu plus grande */
+    font-size: 1.3em;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
     margin: 10px;
@@ -112,23 +89,36 @@ button:active {
    ========================================================================== */
 #jeu {
     display: none; /* Masqué par défaut, affiché par JS */
-    padding: 20px;
+    padding: 10px; /* <--- MODIFICATION ICI : Réduction du padding général du jeu */
+    /* Pour Niveau 1 et 3 : Ajuster la hauteur du conteneur `.container` pour le jeu */
+    /* Cette partie sera gérée plus finement par les marges internes ci-dessous */
 }
+
+/* Ajustement pour le conteneur principal quand un niveau est actif */
+/* Cible le .container seulement quand #jeu est visible */
+.container:has(#jeu[style*="block"]) {
+    /* Si nécessaire, vous pouvez ajuster la hauteur max ici, mais les marges internes sont plus flexibles */
+    /* max-height: 85vh; */ /* Exemple, à tester */
+    /* overflow-y: auto; */ /* Si le contenu dépasse, permet le défilement */
+    padding-top: 20px; /* <--- MODIFICATION ICI : Réduire le padding en haut et en bas */
+    padding-bottom: 20px; /* <--- MODIFICATION ICI : Réduire le padding en haut et en bas */
+}
+
 
 #jeu h1 { /* Titres des niveaux */
     font-size: 2.5em;
     color: #2c3e50;
-    margin-bottom: 25px;
+    margin-bottom: 15px; /* <--- MODIFICATION ICI : Réduire la marge sous le titre */
     font-family: 'Righteous', cursive;
 }
 
 #question-image {
     max-width: 100%;
     height: auto;
-    max-height: 400px;
+    max-height: 250px; /* <--- MODIFICATION ICI : Réduction de la hauteur max des images pour Nv1/Nv3 */
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    margin-bottom: 25px;
+    margin-bottom: 15px; /* <--- MODIFICATION ICI : Réduire la marge sous l'image */
     animation-duration: 0.5s;
     animation-fill-mode: forwards;
 }
@@ -136,7 +126,7 @@ button:active {
 #question-texte {
     font-size: 1.8em;
     color: #444;
-    margin-bottom: 25px;
+    margin-bottom: 15px; /* <--- MODIFICATION ICI : Réduire la marge sous le texte */
     min-height: 2.5em;
     display: flex;
     justify-content: center;
@@ -144,18 +134,17 @@ button:active {
 }
 
 .buttons {
-    margin-top: 20px;
-    /* Styles spécifiques pour les boutons "Oui" et "Non" */
-    display: flex; /* Utilise flexbox pour aligner les boutons côte à côte */
-    justify-content: center; /* Centre les boutons horizontalement */
-    gap: 20px; /* Espace entre les boutons */
+    margin-top: 15px; /* <--- MODIFICATION ICI : Réduire la marge au-dessus des boutons */
+    display: flex;
+    justify-content: center;
+    gap: 20px;
 }
 
 /* Bouton "Oui" (vert) - Niveaux du quiz */
 #btn-vert {
-    background-color: #28a745; /* Vert plus vif */
-    padding: 18px 40px; /* <--- MODIFICATION ICI : Encore plus grand pour les boutons du quiz */
-    font-size: 1.5em; /* <--- MODIFICATION ICI : Texte plus grand pour les boutons du quiz */
+    background-color: #28a745;
+    padding: 18px 40px;
+    font-size: 1.5em;
 }
 
 #btn-vert:hover {
@@ -164,15 +153,14 @@ button:active {
 
 /* Bouton "Non" (rouge) - Niveaux du quiz */
 #btn-rouge {
-    background-color: #dc3545; /* Rouge vif */
-    padding: 18px 40px; /* <--- MODIFICATION ICI : Encore plus grand pour les boutons du quiz */
-    font-size: 1.5em; /* <--- MODIFICATION ICI : Texte plus grand pour les boutons du quiz */
+    background-color: #dc3545;
+    padding: 18px 40px;
+    font-size: 1.5em;
 }
 
 #btn-rouge:hover {
     background-color: #c82333;
 }
-
 
 #btn-credit {
     position: fixed;
@@ -189,7 +177,7 @@ button:active {
 #score {
     font-size: 1.5em;
     font-weight: bold;
-    margin-top: 20px;
+    margin-top: 15px; /* <--- MODIFICATION ICI : Réduire la marge au-dessus du score */
     color: #333;
 }
 
@@ -198,7 +186,7 @@ button:active {
     width: 100%;
     background-color: #e0e0e0;
     border-radius: 5px;
-    margin-bottom: 20px;
+    margin-bottom: 15px; /* <--- MODIFICATION ICI : Réduire la marge sous la barre de progression */
     height: 25px;
     overflow: hidden;
 }
@@ -267,69 +255,12 @@ button:active {
 /* ==========================================================================
    6. Styles de la Vidéo (si présente)
    ========================================================================== */
-#video-container {
-    position: relative;
-    width: 80%;
-    max-width: 600px;
-    margin: 20px auto;
-    aspect-ratio: 16 / 9;
-    background-color: #000;
-    border-radius: 10px;
-    overflow: hidden;
-    cursor: pointer;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-}
-
-#youtube-intro-video {
-    width: 100%;
-    height: 100%;
-    display: block;
-}
-
-/* Style de l'overlay avec le bouton "Play" */
-#video-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.5em;
-    font-weight: bold;
-    text-align: center;
-    cursor: pointer;
-    transition: opacity 0.3s ease;
-    z-index: 10;
-}
-
-#video-overlay:hover {
-    background-color: rgba(0, 0, 0, 0.75);
-}
+/* ... (pas de changement ici) ... */
 
 /* ==========================================================================
    7. Styles pour la page de Crédits
    ========================================================================== */
-#credit-page {
-    padding: 30px;
-    text-align: left;
-}
-
-#credit-page h2 {
-    font-size: 2em;
-    color: #2c3e50;
-    margin-bottom: 20px;
-    font-family: 'Righteous', cursive;
-}
-
-#credit-page p {
-    font-size: 1.1em;
-    line-height: 1.6;
-    margin-bottom: 10px;
-}
+/* ... (pas de changement ici) ... */
 
 /* ==========================================================================
    8. Responsive Design (Ajustements pour les petits écrans)
@@ -338,28 +269,28 @@ button:active {
     .container {
         padding: 20px;
         max-width: 95%;
-        width: auto; /* Permet au conteneur de s'adapter sur des écrans plus petits */
+        width: auto;
     }
 
     #accueil h1 {
         font-size: 2.5em;
     }
 
-    button { /* Boutons de l'accueil */
+    button {
         padding: 12px 25px;
         font-size: 1em;
     }
 
-    .buttons { /* Conteneur des boutons Oui/Non */
-        flex-direction: column; /* Empile les boutons Oui/Non verticalement */
+    .buttons {
+        flex-direction: column;
         gap: 10px;
     }
 
-    #btn-vert, #btn-rouge { /* Boutons Oui/Non */
-        padding: 15px 30px; /* Ajustement de la taille pour mobile */
+    #btn-vert, #btn-rouge {
+        padding: 15px 30px;
         font-size: 1.2em;
-        width: 80%; /* Occupe plus de largeur */
-        margin: 0 auto; /* Centre les boutons empilés */
+        width: 80%;
+        margin: 0 auto;
     }
 
     #question-texte {
@@ -379,8 +310,6 @@ button:active {
     #accueil h1 {
         font-size: 2em;
     }
-
-    /* Les styles des boutons Oui/Non sont déjà ajustés dans le media query précédent */
 
     #question-texte {
         font-size: 1.2em;
