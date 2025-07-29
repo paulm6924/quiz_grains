@@ -19,7 +19,7 @@ body {
     display: flex; /* Active Flexbox pour centrer le contenu */
     justify-content: center; /* Centre horizontalement le contenu */
     align-items: center; /* Centre verticalement le contenu */
-    min-height: 100vh; /* Assure que le body prend au moins toute la hauteur de la fenêtre */
+    min-height: 60vh; /* Assure que le body prend au moins toute la hauteur de la fenêtre */
     overflow: auto; /* Cache le débordement */
     position: relative;
     box-sizing: border-box;
