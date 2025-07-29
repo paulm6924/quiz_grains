@@ -14,12 +14,12 @@ const questionsNiveau1 = [
     { src: "static/image_nv_1/Image8.jpg", question: "Ce grain de beaute a t'il : des BORDS REGULIERS ?", reponse: "non" },
     { src: "static/image_nv_1/Image9.jpg", question: "Ce grain de beaute a t'il : des BORDS REGULIERS ?", reponse: "non" },
     { src: "static/image_nv_1/Image10.jpg", question: "Ce grain de beaute a t'il : des BORDS REGULIERS ?", reponse: "oui" },
-    { src: "static/image_nv_1/Image11.jpg", question: "Ce grain de beaute est-il d'une seule couleur ?", reponse: "non" },
-    { src: "static/image_nv_1/Image12.jpg", question: "Ce grain de beaute est-il d'une seule couleur ?", reponse: "non" },
-    { src: "static/image_nv_1/Image13.jpg", question: "Ce grain de beaute est-il d'une seule couleur ?", reponse: "non" },
-    { src: "static/image_nv_1/Image14.jpg", question: "Ce grain de beaute est-il d'une seule couleur ?", reponse: "oui" },
-    { src: "static/image_nv_1/Image15.jpg", question: "Ce grain de beaute est-il d'une seule couleur ?", reponse: "non" },
-    { src: "static/image_nv_1/Image16.jpg", question: "Ce grain de beaute est-il d'une seule couleur ?", reponse: "non" },
+    { src: "static/image_nv_1/Image11.jpg", question: "Ce grain de beaute est-il d'une seule COULEUR ?", reponse: "non" },
+    { src: "static/image_nv_1/Image12.jpg", question: "Ce grain de beaute est-il d'une seule COULEUR ?", reponse: "non" },
+    { src: "static/image_nv_1/Image13.jpg", question: "Ce grain de beaute est-il d'une seule COULEUR ?", reponse: "non" },
+    { src: "static/image_nv_1/Image14.jpg", question: "Ce grain de beaute est-il d'une seule COULEUR ?", reponse: "oui" },
+    { src: "static/image_nv_1/Image15.jpg", question: "Ce grain de beaute est-il d'une seule COULEUR ?", reponse: "non" },
+    { src: "static/image_nv_1/Image16.jpg", question: "Ce grain de beaute est-il d'une seule COULEUR ?", reponse: "non" },
 ];
 
 let index = 0;
