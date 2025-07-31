@@ -117,8 +117,7 @@
         // Cette fonction est appelée quand le lecteur vidéo est prêt.
         function onPlayerReady(event) {
             const videoOverlay = document.getElementById('video-overlay');
-            event.target.mute();
-            event.target.setVolume(0);
+            event.target.mute(); // obligé pour autoriser autoplay sur certains navigateurs
             videoOverlay.style.opacity = '1';
             videoOverlay.style.pointerEvents = 'auto';
         }
