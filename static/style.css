@@ -19,7 +19,7 @@ body {
     display: flex; /* Active Flexbox pour centrer le contenu */
     justify-content: center; /* Centre horizontalement le contenu */
     align-items: center; /* Centre verticalement le contenu */
-    min-height: 60vh; /* Assure que le body prend au moins toute la hauteur de la fenêtre */
+    min-height: 100vh; /* <-- MODIFIÉ : Assure que le body prend TOUTE la hauteur de la fenêtre pour un centrage parfait */
     overflow: auto; /* Cache le débordement */
     position: relative;
     box-sizing: border-box;
@@ -36,48 +36,42 @@ body {
     position: relative;
     z-index: 2; /* S'assure qu'il est au-dessus d'autres éléments de fond */
     box-sizing: border-box;
-
-    /* Assure que le conteneur lui-même est un Flexbox pour son contenu interne si nécessaire */
+    /* AJOUTÉ : Pour centrer le contenu du conteneur verticalement si nécessaire */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    min-height: 400px; /* AJOUTÉ : Hauteur minimale pour le conteneur pour éviter qu'il ne soit trop petit */
 }
 
 /* Style SPÉCIFIQUE pour le conteneur du Niveau 1 */
-#level-1-quiz-container {
-    min-height: 60vh; /* Ajustez cette valeur (par exemple 50vh, 60vh) pour la hauteur souhaitée */
-    /* Ces styles peuvent être spécifiques au Niveau 1 sans affecter les autres */
+/* REMARQUE : Ce style devrait être appliqué au conteneur #jeu LORSQUE le niveau 1 est chargé,
+   pas au #level-1-quiz-container qui n'existe pas dans votre HTML actuel.
+   Je vais l'adapter pour cibler #jeu quand le niveau 1 est actif, si votre JS gère l'ajout d'une classe spécifique au corps ou à #jeu.
+   Si ce n'est pas le cas, ces styles ne s'appliqueront pas.
+   Pour l'instant, je vais ajuster les styles généraux de #jeu. */
 
-    /* AJUSTEMENTS POUR LE TITRE ET L'IMAGE DU NIVEAU 1 */
-    & h1 { /* Cible le h1 à l'intérieur de ce conteneur */
-        font-size: 1.8em; /* Exemple: réduire la taille du titre */
-        margin-bottom: 10px; /* Ajuster la marge si nécessaire */
-    }
-
-    & #question-image { /* Cible l'image avec l'ID 'question-image' à l'intérieur de ce conteneur */
-        max-height: 185px; /* Exemple: réduire la hauteur maximale de l'image */
-        width: auto; /* Laisser la largeur s'ajuster proportionnellement */
-        margin-bottom: 10px; /* Ajuster la marge si nécessaire */
-    }
-
-    /* Styles pour le texte de la question et la barre de progression */
-    & #question-texte { /* Cible le texte de la question */
-        font-size: 1.3em; /* Exemple: réduire la taille du texte de la question */
-        margin-bottom: 10px; /* Ajuster la marge si nécessaire */
-    }
-
-    & #progression { /* Cible la barre de progression */
-        height: 12px; /* Exemple: réduire la hauteur de la barre de progression */
-        margin-bottom: 10px; /* Ajuster la marge si nécessaire */
-    }
+/* Suppression du conteneur en fond sur le niveau 1 (et autres niveaux de jeu) */
+#jeu.active .scrolling-background { /* AJOUTÉ: Cache le fond quand #jeu est actif et a la classe 'active' */
+    display: none;
+}
+/* Ou plus simplement, si vous voulez toujours cacher le scrolling-background quand #jeu est visible */
+#jeu:not([style*="display: none"]) ~ .scrolling-background { /* Cible l'arrière-plan si #jeu n'est PAS caché */
+    display: none;
+}
+/* Ou, si .scrolling-background est toujours le premier enfant de body */
+.scrolling-background {
+    /* ... vos styles existants ... */
+    /* AJOUTÉ : Masque le fond lorsque le niveau de jeu est actif */
+    /* Cela nécessite de vérifier comment votre JS gère l'affichage de #jeu */
+    /* Si #jeu est le seul élément affiché en dehors de #accueil, on peut le masquer */
+    /* Une approche plus robuste serait de le faire via JS */
 }
 
-/* Style pour le conteneur du Niveau 3 si vous voulez qu'il soit différent/plus grand que le Niveau 1 */
-/* Si le Niveau 3 a un ID comme 'level-3-quiz-container', vous pouvez le styliser séparément ici */
-/* #level-3-quiz-container {
-    min-height: 70vh;
-} */
+/* Vous pouvez aussi le gérer directement dans la fonction chargerNiveau() en JS :
+   document.querySelector('.scrolling-background').style.display = 'none';
+   document.querySelector('.scrolling-background').style.display = 'block'; au retour menu
+*/
 
 
 /* ==========================================================================
@@ -90,16 +84,27 @@ body {
     width: 100%;
     height: 100%;
     /* C'est ici que l'image de fond doit être définie */
-    background-image: url('{{ url_for("static", filename="votre_image_de_fond.jpg") }}'); /* REMPLACER PAR LE CHEMIN DE VOTRE IMAGE JPEG */
+    background-image: url('{{ url_for("static", filename="images/background.jpg") }}'); /* REMPLACER PAR LE CHEMIN DE VOTRE IMAGE JPEG (exemple: images/background.jpg) */
     background-size: cover; /* S'assure que l'image couvre toute la zone, sans déformation */
     background-position: center; /* Centre l'image */
     background-repeat: no-repeat; /* Empêche la répétition de l'image */
     z-index: 1; /* S'assure qu'il est en arrière-plan (derrière le .container) */
+    transition: opacity 0.5s ease-in-out; /* Pour une transition douce à l'affichage/masquage */
 }
 
 /* ==========================================================================
    4. Styles de l'Accueil (Accueil, Titres, Boutons)
    ========================================================================== */
+#accueil {
+    /* AJOUTÉ : Pour s'assurer que l'accueil est bien centré dans son conteneur */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%; /* Prend toute la largeur disponible dans .container */
+    min-height: 400px; /* Assure une hauteur minimale pour le centrage */
+}
+
 #accueil h1 {
     font-size: 3.5em;
     color: #2c3e50;
@@ -144,11 +149,14 @@ button:active {
    5. Styles de la Zone de Jeu (inclut tous les niveaux)
    ========================================================================== */
 #jeu {
-    /* Je suppose que #jeu est le conteneur direct des éléments du quiz */
-    /* Il doit être visible lorsque le quiz est actif */
-    display: block; /* S'assurer qu'il n'est pas masqué par défaut si le JS l'affiche */
+    display: flex; /* MODIFIÉ: Utilise flexbox pour le contenu des niveaux */
+    flex-direction: column; /* Organise les éléments en colonne */
+    align-items: center; /* Centre les éléments horizontalement */
+    justify-content: center; /* Centre les éléments verticalement si de l'espace est disponible */
+    width: 100%; /* Prend toute la largeur disponible dans .container */
     padding: 10px; /* Padding interne pour le contenu du jeu */
-    /* Ces styles généraux s'appliquent à tous les niveaux à moins d'être surchargés par des IDs */
+    box-sizing: border-box; /* Inclut le padding dans la largeur/hauteur */
+    min-height: 400px; /* AJOUTÉ: Assure une hauteur minimale pour les niveaux */
 }
 
 #jeu h1 { /* Titres des niveaux (générique) */
@@ -177,6 +185,7 @@ button:active {
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center; /* Assure le centrage du texte sur plusieurs lignes */
 }
 
 .buttons { /* Conteneur des boutons (générique) */
@@ -260,7 +269,7 @@ button:active {
     margin-bottom: 10px;
     font-weight: bold;
     font-size: 1.3em;
-    min-height: 1.5em;
+    min-height: 1.5em; /* Assure un espace même si vide */
     color: #333;
 }
 
@@ -290,13 +299,13 @@ button:active {
 }
 
 /* ==========================================================================
-   6. Styles de la Vidéo (si présente)
+   6. Styles de la Vidéo (YouTube)
    ========================================================================== */
 #video-container {
     position: relative;
     width: 80%; /* Ajustez la largeur si nécessaire */
     max-width: 600px;
-    margin: 20px auto;
+    margin: 20px auto; /* Centre la vidéo horizontalement */
     aspect-ratio: 16 / 9; /* Pour maintenir le ratio 16:9 des vidéos YouTube */
     background-color: #000;
     border-radius: 10px;
@@ -306,7 +315,7 @@ button:active {
 }
 
 /* Ciblez l'iframe YouTube */
-#youtube-intro-video { /* ANCIENNEMENT #intro-video si vous aviez modifié */
+#youtube-intro-video {
     width: 100%;
     height: 100%;
     display: block;
@@ -339,7 +348,8 @@ button:active {
 /* ==========================================================================
    7. Styles pour la page de Crédits
    ========================================================================= */
-#credits-page {
+#credit-page { /* MODIFIÉ: L'ID est 'credit-page' dans votre HTML */
+    /* Assurez-vous que cette section est également centrée et stylisée */
     background-color: white;
     padding: 40px;
     border-radius: 20px;
@@ -348,46 +358,54 @@ button:active {
     width: 90%;
     max-width: 800px;
     position: relative;
-    margin: 20px auto;
+    margin: 20px auto; /* Pour centrer si #credit-page est display:block */
+    display: flex; /* Active flexbox pour son propre contenu */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+    box-sizing: border-box;
 }
-.credits-content h2 {
+
+/* Correction des sélecteurs pour le contenu des crédits */
+#credit-page h2 { /* MODIFIÉ */
     color: #2c3e50;
     margin-bottom: 25px;
     font-size: 2.2em;
 }
-.credits-content h3 {
+#credit-page h3 { /* MODIFIÉ */
     color: #34495e;
     margin-top: 30px;
     margin-bottom: 15px;
     font-size: 1.6em;
 }
-.credits-content p, .credits-content ul {
+#credit-page p, #credit-page ul { /* MODIFIÉ */
     font-size: 1.1em;
     line-height: 1.6;
     color: #555;
     margin-bottom: 15px;
 }
-.credits-content ul {
+#credit-page ul { /* MODIFIÉ */
     list-style-type: none;
     padding: 0;
     margin: 0 auto 20px;
     max-width: 600px;
     text-align: left;
 }
-.credits-content ul li {
+#credit-page ul li { /* MODIFIÉ */
     margin-bottom: 8px;
 }
-.credits-content ul ul {
+#credit-page ul ul { /* MODIFIÉ */
     margin-left: 20px;
     font-size: 0.95em;
     color: #666;
 }
-.credits-content .copyright {
+#credit-page .copyright { /* MODIFIÉ */
     margin-top: 30px;
     font-size: 0.9em;
     color: #888;
 }
-.credits-content button {
+#credit-page button { /* MODIFIÉ */
     background-color: #007bff;
     color: white;
     margin-top: 30px;
@@ -395,7 +413,7 @@ button:active {
     font-size: 18px;
     border-radius: 10px;
 }
-.credits-content button:hover {
+#credit-page button:hover { /* MODIFIÉ */
     background-color: #0056b3;
 }
 
@@ -457,24 +475,27 @@ button:active {
 /* ==========================================================================
    9. Niveau 2 (Styles spécifiques si différents des autres niveaux)
    ========================================================================== */
-/* Si Niveau 2 a des images cliquables spécifiques */
-#question-image { /* Ce sélecteur existe déjà mais je le mets ici pour montrer qu'il peut être override */
-    width: 250px;
-    height: 250px;
-    object-fit: cover;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+
+.image-paire-container { /* AJOUTÉ: Conteneur pour les deux images du niveau 2 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px; /* Espace entre les deux images */
+    margin-bottom: 20px;
+    flex-wrap: wrap; /* Permet aux images de passer à la ligne sur petits écrans */
 }
-.clickable-image { /* Pour les images cliquables de Niveau 2 */
-    width: 175px;
-    height: 175px;
-    object-fit: cover;
+
+.image-paire { /* AJOUTÉ: Styles pour les images individuelles du niveau 2 */
+    width: 200px; /* Taille fixe pour les images de paire */
+    height: 180px;
+    object-fit: contain; /* S'assure que l'image est entièrement visible */
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border 0.3s ease;
 }
-.clickable-image:hover {
-    transform: scale(1.03);
-    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+
+.image-paire:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
 }
