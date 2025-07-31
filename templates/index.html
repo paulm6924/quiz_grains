@@ -105,14 +105,14 @@
 
         // Cette fonction est appelée par l'API YouTube lorsque le code de l'API est prêt.
         // C'est le point d'entrée pour interagir avec le lecteur.
-        function onYouTubeIframeAPIReady() {
+        window.onYouTubeIframeAPIReady = function () {
             player = new YT.Player('youtube-intro-video', {
-                events: {
+            events: {
                     'onReady': onPlayerReady,
                     'onStateChange': onPlayerStateChange
                 }
             });
-        }
+        };
 
         // Cette fonction est appelée quand le lecteur vidéo est prêt.
         function onPlayerReady(event) {
