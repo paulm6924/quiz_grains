@@ -54,6 +54,7 @@
 
         function chargerNiveau(numero) {
             // Pause la vidéo YouTube avant de quitter la page d'accueil
+            document.querySelector('.scrolling-background').style.display = 'none';
             if (player && typeof player.pauseVideo === 'function') { // Vérifie si le lecteur est initialisé
                 player.pauseVideo();
                 player.seekTo(0); // Remet la vidéo au début
@@ -89,6 +90,7 @@
         }
 
         function retourMenu() {
+            document.querySelector('.scrolling-background').style.display = 'block';
             window.location.href = "{{ url_for('index') }}"; // Ceci recharge la page d'accueil, réinitialisant la vidéo naturellement
         }
 
