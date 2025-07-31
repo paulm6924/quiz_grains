@@ -36,6 +36,10 @@ body {
     position: relative;
     z-index: 2; /* S'assure qu'il est au-dessus d'autres éléments de fond */
     box-sizing: border-box;
+    position: absolute; /* Positionne l'élément par rapport à son premier parent positionné (ou au body) */
+    top: 50%; /* Déplace le bord supérieur de l'élément à 50% de la hauteur du parent */
+    left: 50%; /* Déplace le bord gauche de l'élément à 50% de la largeur du parent */
+    transform: translate(-50%, -50%);
 
     /* Assure que le conteneur lui-même est un Flexbox pour son contenu interne si nécessaire */
     display: flex;
