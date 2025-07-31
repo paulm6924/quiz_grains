@@ -19,11 +19,11 @@
             <h1>CHASSE AUX GRAINS</h1>
 
             <div id="video-container">
-                <iframe>
+                <iframe
                     id="youtube-intro-video"
                     width="560"
                     height="315"
-                    src="https://www.youtube.com/embed/vLGYsOoNtFE?enablejsapi=1&rel=0&version=3&playerapiid=ytplayer"
+                    src="https://www.youtube.com/embed/gU2d0Fj9g2o?enablejsapi=1&rel=0&version=3&playerapiid=ytplayer"
                     frameborder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowfullscreen
@@ -53,8 +53,10 @@
         let player; // Variable globale pour le lecteur YouTube
 
         function chargerNiveau(numero) {
-            // Pause la vidéo YouTube avant de quitter la page d'accueil
+            // Masque le fond défilant lorsque vous entrez dans un niveau
             document.querySelector('.scrolling-background').style.display = 'none';
+
+            // Pause la vidéo YouTube avant de quitter la page d'accueil
             if (player && typeof player.pauseVideo === 'function') { // Vérifie si le lecteur est initialisé
                 player.pauseVideo();
                 player.seekTo(0); // Remet la vidéo au début
@@ -77,6 +79,9 @@
         }
 
         function affichercredit() {
+            // Masque le fond défilant lorsque vous allez à la page de crédits
+            document.querySelector('.scrolling-background').style.display = 'none';
+
             // Pause la vidéo YouTube avant de quitter la page d'accueil
             if (player && typeof player.pauseVideo === 'function') {
                 player.pauseVideo();
@@ -86,18 +91,24 @@
             document.getElementById("jeu").style.display = "none";
             const creditPage = document.getElementById("credit-page");
             creditPage.style.display = "block";
-            window.location.href = "{{ url_for('credit') }}"; // Ceci va recharger la page, donc la vidéo sera réinitialisée de toute façon
+            // Note: window.location.href va recharger la page, réinitialisant la vidéo naturellement.
+            // Si vous affichez les crédits DANS la même page sans rechargement,
+            // vous devrez gérer le display du conteneur des crédits ici.
+            window.location.href = "{{ url_for('credit') }}";
         }
 
         function retourMenu() {
+            // Réaffiche le fond défilant lorsque vous revenez au menu
             document.querySelector('.scrolling-background').style.display = 'block';
-            window.location.href = "{{ url_for('index') }}"; // Ceci recharge la page d'accueil, réinitialisant la vidéo naturellement
+            // Le rechargement de la page réinitialisera l'état de la vidéo YouTube
+            window.location.href = "{{ url_for('index') }}";
         }
 
         // --- GESTION DE L'API YOUTUBE ---
 
         // 1. Cette fonction est appelée par l'API YouTube lorsque le code de l'API est prêt.
         function onYouTubeIframeAPIReady() {
+            // Assurez-vous que l'ID de l'iframe correspond bien à 'youtube-intro-video'
             player = new YT.Player('youtube-intro-video', {
                 events: {
                     'onReady': onPlayerReady, // Appelée quand le lecteur est prêt
@@ -114,12 +125,14 @@
             event.target.setVolume(0);
             videoOverlay.style.opacity = '1'; // S'assure que l'overlay est visible au début
             videoOverlay.style.pointerEvents = 'auto'; // S'assure qu'il est cliquable
+            // Initialement, la vidéo doit être chargée mais pas lue automatiquement
+            // event.target.loadVideoById('gU2d0Fj9g2o'); // Optionnel si l'attribut src est déjà correct
         }
 
         // 3. Cette fonction est appelée à chaque changement d'état de la vidéo.
         function onPlayerStateChange(event) {
             const videoOverlay = document.getElementById('video-overlay');
-            const videoContainer = document.getElementById('video-container'); // Utilisé pour le curseur
+            const videoContainer = document.getElementById('video-container');
 
             if (event.data === YT.PlayerState.PLAYING) {
                 // Si la vidéo joue, cacher l'overlay et afficher le curseur par défaut
