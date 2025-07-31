@@ -30,7 +30,6 @@ const zoneJeu = document.getElementById("jeu");
 
 // Contenu HTML du niveau 1, avec les IDs de boutons mis à jour et l'élément 'message' ajouté
 zoneJeu.innerHTML = `
-    <div class="container" id="level-1-quiz-container">
         <h1>Niveau 1 : Savoir Decrire</h1>
 
         <div id="progression">
