@@ -23,7 +23,7 @@
                     id="youtube-intro-video"
                     width="560"
                     height="315"
-                    src="https://www.youtube.com/embed/vLGYsOoNtFE?enablejsapi=1&rel=0&version=3&playerapiid=ytplayer"
+                    src="https://www.youtube.com/iframe_api8"
                     frameborder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowfullscreen
@@ -49,14 +49,21 @@
 
     <script>
         const staticBaseUrl = "{{ url_for('static', filename='') }}";
-        let currentLevelScript = null;
         let player; // Variable globale pour le lecteur YouTube
 
+        function toggleScrollingBackground(show) {
+            const background = document.querySelector('.scrolling-background');
+            if (background) {
+                background.style.display = show ? 'block' : 'none';
+            }
+        }
+
         function chargerNiveau(numero) {
-            // Pause la vidéo YouTube avant de quitter la page d'accueil
-            if (player && typeof player.pauseVideo === 'function') { // Vérifie si le lecteur est initialisé
+            toggleScrollingBackground(false);
+
+            if (player && typeof player.pauseVideo === 'function') {
                 player.pauseVideo();
-                player.seekTo(0); // Remet la vidéo au début
+                player.seekTo(0);
             }
 
             document.getElementById("accueil").style.display = "none";
@@ -76,7 +83,8 @@
         }
 
         function affichercredit() {
-            // Pause la vidéo YouTube avant de quitter la page d'accueil
+            toggleScrollingBackground(false);
+
             if (player && typeof player.pauseVideo === 'function') {
                 player.pauseVideo();
                 player.seekTo(0);
@@ -85,83 +93,82 @@
             document.getElementById("jeu").style.display = "none";
             const creditPage = document.getElementById("credit-page");
             creditPage.style.display = "block";
-            window.location.href = "{{ url_for('credit') }}"; // Ceci va recharger la page, donc la vidéo sera réinitialisée de toute façon
+            window.location.href = "{{ url_for('credit') }}";
         }
 
         function retourMenu() {
-            window.location.href = "{{ url_for('index') }}"; // Ceci recharge la page d'accueil, réinitialisant la vidéo naturellement
+            toggleScrollingBackground(true);
+            window.location.href = "{{ url_for('index') }}";
         }
 
         // --- GESTION DE L'API YOUTUBE ---
 
-        // 1. Cette fonction est appelée par l'API YouTube lorsque le code de l'API est prêt.
+        // Cette fonction est appelée par l'API YouTube lorsque le code de l'API est prêt.
+        // C'est le point d'entrée pour interagir avec le lecteur.
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('youtube-intro-video', {
                 events: {
-                    'onReady': onPlayerReady, // Appelée quand le lecteur est prêt
-                    'onStateChange': onPlayerStateChange // Appelée quand l'état de la vidéo change (lecture, pause, etc.)
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
                 }
             });
         }
 
-        // 2. Cette fonction est appelée quand le lecteur vidéo est prêt à recevoir des commandes.
+        // Cette fonction est appelée quand le lecteur vidéo est prêt.
         function onPlayerReady(event) {
             const videoOverlay = document.getElementById('video-overlay');
-            // Mute la vidéo par défaut et met le volume à zéro
             event.target.mute();
             event.target.setVolume(0);
-            videoOverlay.style.opacity = '1'; // S'assure que l'overlay est visible au début
-            videoOverlay.style.pointerEvents = 'auto'; // S'assure qu'il est cliquable
+            videoOverlay.style.opacity = '1';
+            videoOverlay.style.pointerEvents = 'auto';
         }
 
-        // 3. Cette fonction est appelée à chaque changement d'état de la vidéo.
+        // Cette fonction est appelée à chaque changement d'état de la vidéo.
         function onPlayerStateChange(event) {
             const videoOverlay = document.getElementById('video-overlay');
-            const videoContainer = document.getElementById('video-container'); // Utilisé pour le curseur
+            const videoContainer = document.getElementById('video-container');
 
             if (event.data === YT.PlayerState.PLAYING) {
-                // Si la vidéo joue, cacher l'overlay et afficher le curseur par défaut
                 videoOverlay.style.opacity = '0';
-                videoOverlay.style.pointerEvents = 'none'; // Rend l'overlay non cliquable
-                event.target.setVolume(100); // Rétablit le volume à 100% lors de la lecture
+                videoOverlay.style.pointerEvents = 'none';
+                event.target.setVolume(100);
                 videoContainer.style.cursor = 'default';
             } else if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.BUFFERING) {
-                // Si la vidéo est en pause ou en mise en tampon, afficher l'overlay et rendre cliquable
-                videoOverlay.textContent = 'Cliquez pour continuer'; // Texte pour la pause
+                videoOverlay.textContent = 'Cliquez pour continuer';
                 videoOverlay.style.opacity = '1';
                 videoOverlay.style.pointerEvents = 'auto';
-                event.target.setVolume(0); // Mute quand en pause
+                event.target.setVolume(0);
                 videoContainer.style.cursor = 'pointer';
             } else if (event.data === YT.PlayerState.ENDED) {
-                // Si la vidéo est terminée, afficher l'overlay avec un message de relecture
                 videoOverlay.textContent = 'Cliquez pour rejouer';
                 videoOverlay.style.opacity = '1';
                 videoOverlay.style.pointerEvents = 'auto';
-                event.target.seekTo(0); // Remet la vidéo au début
-                event.target.setVolume(0); // Mute à la fin
+                event.target.seekTo(0);
+                event.target.setVolume(0);
                 videoContainer.style.cursor = 'pointer';
             }
         }
 
-        // 4. Gérer le clic sur le conteneur de la vidéo (ou l'overlay)
+        // Gérer le clic sur le conteneur de la vidéo (ou l'overlay)
         document.addEventListener('DOMContentLoaded', function() {
             const videoContainer = document.getElementById('video-container');
             if (videoContainer) {
                 videoContainer.addEventListener('click', () => {
-                    if (player && typeof player.getPlayerState === 'function') { // S'assurer que 'player' est initialisé
+                    if (player && typeof player.getPlayerState === 'function') {
                         const playerState = player.getPlayerState();
                         if (playerState === YT.PlayerState.PAUSED || playerState === YT.PlayerState.ENDED || playerState === YT.PlayerState.BUFFERING) {
                             player.playVideo();
                         } else if (playerState === YT.PlayerState.PLAYING) {
                             player.pauseVideo();
                         }
+                    } else {
+                        console.warn("Le lecteur YouTube n'est pas encore initialisé.");
                     }
                 });
             } else {
-                console.warn("Conteneur vidéo non trouvé dans le DOM.");
+                console.warn("Conteneur vidéo #video-container non trouvé dans le DOM.");
             }
         });
-
     </script>
 </body>
 </html>
