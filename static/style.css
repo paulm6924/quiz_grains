@@ -45,29 +45,6 @@ body {
 }
 
 /* Style SPÉCIFIQUE pour le conteneur du Niveau 1 */
-#level-1-quiz-container {
-    & h1 { /* Cible le h1 à l'intérieur de ce conteneur */
-        font-size: 1.8em; /* Exemple: réduire la taille du titre */
-        margin-bottom: 10px; /* Ajuster la marge si nécessaire */
-    }
-
-    & #question-image { /* Cible l'image avec l'ID 'question-image' à l'intérieur de ce conteneur */
-        max-height: 185px; /* Exemple: réduire la hauteur maximale de l'image */
-        width: auto; /* Laisser la largeur s'ajuster proportionnellement */
-        margin-bottom: 10px; /* Ajuster la marge si nécessaire */
-    }
-
-    /* Styles pour le texte de la question et la barre de progression */
-    & #question-texte { /* Cible le texte de la question */
-        font-size: 1.3em; /* Exemple: réduire la taille du texte de la question */
-        margin-bottom: 10px; /* Ajuster la marge si nécessaire */
-    }
-
-    & #progression { /* Cible la barre de progression */
-        height: 12px; /* Exemple: réduire la hauteur de la barre de progression */
-        margin-bottom: 10px; /* Ajuster la marge si nécessaire */
-    }
-}
 
 /* Style pour le conteneur du Niveau 3 si vous voulez qu'il soit différent/plus grand que le Niveau 1 */
 /* Si le Niveau 3 a un ID comme 'level-3-quiz-container', vous pouvez le styliser séparément ici */
