@@ -10,7 +10,7 @@
             <h1>CHASSE AUX GRAINS</h1>
             
             <div id="video-container">
-                <iframe id="youtube-intro-video" width="560" height="315" src="https://www.youtube.com/embed/Y38V89PZqgN" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <iframe id="youtube-intro-video" width="560" height="315" src="https://www.youtube.com/embed/vLGYsOoNtFE" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
 
             <p>Choisissez un niveau :</p>
@@ -30,6 +30,7 @@
     <button id="btn-credit" onclick="affichercredit()">Crédits</button>
 
     <script>
+        // Obtenez l'URL de base du dossier static de Flask
         const staticBaseUrl = "{{ url_for('static', filename='') }}";
 
         function chargerNiveau(numero) {
@@ -37,6 +38,7 @@
             document.getElementById("accueil").style.display = "none";
             document.getElementById("jeu").style.display = "block";
             document.getElementById("jeu").innerHTML = '';
+
             const script = document.createElement("script");
             script.src = staticBaseUrl + "niveau" + numero + ".js";
             document.body.appendChild(script);
