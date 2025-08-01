@@ -63,7 +63,7 @@ body {
     width: 100%;
     height: 100%;
     /* C'est ici que l'image de fond doit être définie */
-    background-image: url('{{ url_for("static", filename="static/image_de_fond/AFFICHE.jpg") }}'); 
+    background-image: url('{{ url_for("static", filename="image_de_fond/AFFICHE.jpg") }}'); 
     background-size: cover; /* S'assure que l'image couvre toute la zone, sans déformation */
     background-position: center; /* Centre l'image */
     background-repeat: no-repeat; /* Empêche la répétition de l'image */
