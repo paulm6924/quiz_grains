@@ -1,36 +1,18 @@
-<!DOCTYPE html>
-<html lang="fr">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz - Choix du Niveau</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
-
-    <script src="https://www.youtube.com/iframe_api"></script>
 </head>
 <body>
-    <div class="scrolling-background"></div>
+    <div class="scrolling-background"></div> 
     <div class="container">
         <div id="accueil">
             <h1>CHASSE AUX GRAINS</h1>
-
+            
             <div id="video-container">
-                <iframe
-                    id="youtube-intro-video"
-                    width="560"
-                    height="315"
-                    src="https://www.youtube.com/watch?v=vLGYsOoNtFE?enablejsapi=1&rel=0&version=3&playerapiid=ytplayer"
-                    frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen
-                    title="Vidéo de présentation du Quiz Grains de Beauté">
-                </iframe>
-                <div id="video-overlay">Cliquez pour lancer la vidéo</div>
+                <iframe id="youtube-intro-video" width="560" height="315" src="https://www.youtube.com/embed/0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
+
             <p>Choisissez un niveau :</p>
             <button onclick="chargerNiveau(1)">Niveau 1</button>
             <button onclick="chargerNiveau(2)">Niveau 2</button>
@@ -38,10 +20,10 @@
         </div>
 
         <div id="jeu" style="display: none;">
-            </div>
+        </div>
 
         <div id="credit-page" style="display: none;">
-            </div>
+        </div>
 
     </div>
 
@@ -49,125 +31,20 @@
 
     <script>
         const staticBaseUrl = "{{ url_for('static', filename='') }}";
-        let player; // Variable globale pour le lecteur YouTube
-
-        function toggleScrollingBackground(show) {
-            const background = document.querySelector('.scrolling-background');
-            if (background) {
-                background.style.display = show ? 'block' : 'none';
-            }
-        }
 
         function chargerNiveau(numero) {
-            toggleScrollingBackground(false);
-
-            if (player && typeof player.pauseVideo === 'function') {
-                player.pauseVideo();
-                player.seekTo(0);
-            }
-
+            document.getElementById("jeu").style.display = "block";
             document.getElementById("accueil").style.display = "none";
             document.getElementById("jeu").style.display = "block";
             document.getElementById("jeu").innerHTML = '';
-
             const script = document.createElement("script");
             script.src = staticBaseUrl + "niveau" + numero + ".js";
             document.body.appendChild(script);
-
-            script.onload = () => {
-                console.log(`Script niveau${numero}.js chargé et exécuté.`);
-            };
-            script.onerror = () => {
-                console.error(`Erreur lors du chargement de niveau${numero}.js`);
-            };
         }
 
         function affichercredit() {
-            toggleScrollingBackground(false);
-
-            if (player && typeof player.pauseVideo === 'function') {
-                player.pauseVideo();
-                player.seekTo(0);
-            }
-            document.getElementById("accueil").style.display = "none";
-            document.getElementById("jeu").style.display = "none";
-            const creditPage = document.getElementById("credit-page");
-            creditPage.style.display = "block";
             window.location.href = "{{ url_for('credit') }}";
         }
-
-        function retourMenu() {
-            toggleScrollingBackground(true);
-            window.location.href = "{{ url_for('index') }}";
-        }
-
-        // --- GESTION DE L'API YOUTUBE ---
-
-        // Cette fonction est appelée par l'API YouTube lorsque le code de l'API est prêt.
-        // C'est le point d'entrée pour interagir avec le lecteur.
-        window.onYouTubeIframeAPIReady = function () {
-            player = new YT.Player('youtube-intro-video', {
-            events: {
-                    'onReady': onPlayerReady,
-                    'onStateChange': onPlayerStateChange
-                }
-            });
-        };
-
-        // Cette fonction est appelée quand le lecteur vidéo est prêt.
-        function onPlayerReady(event) {
-            const videoOverlay = document.getElementById('video-overlay');
-            event.target.mute(); // obligé pour autoriser autoplay sur certains navigateurs
-            videoOverlay.style.opacity = '1';
-            videoOverlay.style.pointerEvents = 'auto';
-        }
-
-        // Cette fonction est appelée à chaque changement d'état de la vidéo.
-        function onPlayerStateChange(event) {
-            const videoOverlay = document.getElementById('video-overlay');
-            const videoContainer = document.getElementById('video-container');
-
-            if (event.data === YT.PlayerState.PLAYING) {
-                videoOverlay.style.opacity = '0';
-                videoOverlay.style.pointerEvents = 'none';
-                event.target.setVolume(100);
-                videoContainer.style.cursor = 'default';
-            } else if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.BUFFERING) {
-                videoOverlay.textContent = 'Cliquez pour continuer';
-                videoOverlay.style.opacity = '1';
-                videoOverlay.style.pointerEvents = 'auto';
-                event.target.setVolume(0);
-                videoContainer.style.cursor = 'pointer';
-            } else if (event.data === YT.PlayerState.ENDED) {
-                videoOverlay.textContent = 'Cliquez pour rejouer';
-                videoOverlay.style.opacity = '1';
-                videoOverlay.style.pointerEvents = 'auto';
-                event.target.seekTo(0);
-                event.target.setVolume(0);
-                videoContainer.style.cursor = 'pointer';
-            }
-        }
-
-        // Gérer le clic sur le conteneur de la vidéo (ou l'overlay)
-        document.addEventListener('DOMContentLoaded', function() {
-            const videoContainer = document.getElementById('video-container');
-            if (videoContainer) {
-                videoContainer.addEventListener('click', () => {
-                    if (player && typeof player.getPlayerState === 'function') {
-                        const playerState = player.getPlayerState();
-                        if (playerState === YT.PlayerState.PAUSED || playerState === YT.PlayerState.ENDED || playerState === YT.PlayerState.BUFFERING) {
-                            player.playVideo();
-                        } else if (playerState === YT.PlayerState.PLAYING) {
-                            player.pauseVideo();
-                        }
-                    } else {
-                        console.warn("Le lecteur YouTube n'est pas encore initialisé.");
-                    }
-                });
-            } else {
-                console.warn("Conteneur vidéo #video-container non trouvé dans le DOM.");
-            }
-        });
     </script>
 </body>
 </html>
