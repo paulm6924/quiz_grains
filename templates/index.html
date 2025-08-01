@@ -10,7 +10,7 @@
             <h1>CHASSE AUX GRAINS</h1>
             
             <div id="video-container">
-                <iframe id="youtube-intro-video" width="560" height="315" src="https://www.youtube.com/embed/0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <iframe id="youtube-intro-video" width="560" height="315" src="https://www.youtube.com/embed/Y38V89PZqgN" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
 
             <p>Choisissez un niveau :</p>
@@ -40,10 +40,21 @@
             const script = document.createElement("script");
             script.src = staticBaseUrl + "niveau" + numero + ".js";
             document.body.appendChild(script);
+
+            script.onload = () => {
+                console.log(`Script niveau${numero}.js chargé et exécuté.`);
+            };
+            script.onerror = () => {
+                console.error(`Erreur lors du chargement de niveau${numero}.js`);
+            };
         }
 
         function affichercredit() {
             window.location.href = "{{ url_for('credit') }}";
+        }
+
+        function retourMenu() {
+            window.location.href = "{{ url_for('index') }}";
         }
     </script>
 </body>
